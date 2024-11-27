@@ -43,9 +43,24 @@ const CardManager = () => {
 
   // Available widgets for the Drawer menu
   const availableWidgets = [
-    { name: "Weather Right Now", icon: <TodayIcon />, background:true, widget: <Widget_RightNow /> },
-    { name: "Coming Week Forecast", icon: <DateRangeIcon />, background:false, widget: <Widget_ComingWeek /> },
-    { name: "Duck", icon: <PetsIcon />, background:true, widget: <Widget_Duck /> },
+    {
+      name: "Weather Right Now",
+      icon: <TodayIcon />,
+      background: true,
+      widget: <Widget_RightNow />,
+    },
+    {
+      name: "Coming Week Forecast",
+      icon: <DateRangeIcon />,
+      background: false,
+      widget: <Widget_ComingWeek />,
+    },
+    {
+      name: "Duck",
+      icon: <PetsIcon />,
+      background: true,
+      widget: <Widget_Duck />,
+    },
   ];
 
   // Drawer toggle function
@@ -79,13 +94,30 @@ const CardManager = () => {
   return (
     <div>
       {/* List of Cards */}
-      <Stack id="body_WidgetStack" direction="column" spacing={3} sx={{ paddingBottom: 50 }}>
+      <Stack
+        id="body_WidgetStack"
+        direction="column"
+        spacing={3}
+        sx={{ paddingBottom: 50 }}
+      >
         {cards.map(({ id, widget }) => (
           <WidgetCard key={id} card={{ id, widget }} deleteCard={deleteCard} />
         ))}
 
         {/* Add New Card Section */}
-        <Card variant="outlined" elevation={0} sx={{ minWidth: 275, border: "1px dashed rgba(0, 0, 0, 0.12)", background: "rgba(0, 0, 0, 0.1)" }}>
+        <Card
+          variant="outlined"
+          elevation={0}
+          sx={{
+            minWidth: 275,
+            border: "1px dashed rgba(255, 255, 255, 0.20)",
+            background: "rgba(0, 0, 0, 0.1)",
+            display: "flex", // Enable flexbox
+            justifyContent: "center", // Center content horizontally
+            alignItems: "center", // Center content vertically
+            height: "100%"
+          }}
+        >
           <CardActions>
             <IconButton size="large" onClick={() => toggleDrawer(true)}>
               <AddCircleIcon fontSize="inherit" />

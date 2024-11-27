@@ -31,11 +31,7 @@ const WidgetCard = ({ card, deleteCard }) => {
 
   // Delete Dialog ----------------------------------------------------------------------------------------
 
-  const handleDeleteClickOpen = () => {
-    console.log(background);
-    setDeleteOpen(true);
-  };
-
+  const handleDeleteClickOpen = () => setDeleteOpen(true);
   const handleDeleteClose = () => {
     setDeleteOpen(false);
     resetWidget();
@@ -72,7 +68,10 @@ const WidgetCard = ({ card, deleteCard }) => {
   const pressedContent = (
     <CardContent>
       <CardActionArea>
-        <Stack className="Card_Settings" direction="row" spacing={3}>
+        <Stack className="Card_Settings" direction="row" spacing={3} sx={{display: "flex", // Enable flexbox
+        justifyContent: "center", // Center content horizontally
+        alignItems: "center", // Center content vertically
+        height: "100%"}}>
           <ArrowCircleLeftIcon
             aria-label="ArrowCircleLeftIcon"
             size="large"

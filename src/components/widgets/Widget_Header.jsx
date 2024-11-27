@@ -59,6 +59,28 @@ function Widget_Header() {
   };
 
   const Header_location = () => {
+    const countries = [
+      {
+        value: "0",
+        label: "Australia",
+      }
+    ];
+
+    const states = [
+      {
+        value: "0",
+        label: "Western Australia",
+      },
+      {
+        value: "1",
+        label: "Northern Territory",
+      },
+      {
+        value: "2",
+        label: "Victoria",
+      }
+    ];
+
     const cities = [
       {
         value: "0",
@@ -78,14 +100,45 @@ function Widget_Header() {
       },
     ];
     return editState ? (
-      <Stack direction="column" spacing={2}>
+      <Stack direction="column" spacing={3}>
         <Typography variant="h5">Where are you located?</Typography>
+        <TextField
+          id="outlined-select-country"
+          select
+          label="Select Country"
+          defaultValue="0"
+          helperText="Please select your country"
+        >
+          {countries.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
+
+        <Stack direction="row" spacing={2}>
+        <TextField
+          id="outlined-select-state"
+          select
+          label="Select State"
+          defaultValue="0"
+          helperText="Please select your state"
+          sx ={{width:"50%"}}
+        >
+          {states.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
+
         <TextField
           id="outlined-select-city"
           select
           label="Select City"
           defaultValue="0"
           helperText="Please select your city"
+          sx ={{width:"50%"}}
         >
           {cities.map((option) => (
             <MenuItem key={option.value} value={option.value}>
@@ -93,6 +146,7 @@ function Widget_Header() {
             </MenuItem>
           ))}
         </TextField>
+        </Stack>
         <Button
           variant="outlined"
           onClick={() => {
