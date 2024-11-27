@@ -9,7 +9,7 @@ import {
 import BuildCircleIcon from "@mui/icons-material/BuildCircle";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import SwapVerticalCircleIcon from "@mui/icons-material/SwapVerticalCircle";
-import CancelIcon from '@mui/icons-material/Cancel';
+import CancelIcon from "@mui/icons-material/Cancel";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import SettingsIcon from "@mui/icons-material/Settings";
 import Stack from "@mui/material/Stack";
@@ -21,6 +21,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
 const WidgetCard = ({ card, deleteCard }) => {
+  const background = card.widget.background;
   const [deleteOpen, setDeleteOpen] = React.useState(false);
   const holdTime = 1000;
   const initialContent = card.widget.widget;
@@ -133,7 +134,7 @@ const WidgetCard = ({ card, deleteCard }) => {
     setIsHolding(false);
   };*/
 
-  return (
+  const cardWithBackground = (
     <>
       <Card
         elevation={1}
@@ -150,6 +151,35 @@ const WidgetCard = ({ card, deleteCard }) => {
       <DeleteDialog />
     </>
   );
+
+  const cardWithoutBackground = (
+    <>
+      <Card
+        elevation={1}
+        sx={{
+          minWidth: 275,
+          margin: "16px",
+          borderRadius: "8px",
+          background: "rgba(0, 0, 0, 0.0)",
+        }}
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
+        //onMouseLeave={handleMouseLeave}
+        onTouchStart={handleMouseDown}
+        onTouchEnd={handleMouseUp}
+      >
+        {content}
+      </Card>
+
+      <DeleteDialog />
+    </>
+  );
+
+  if (background) {
+    return cardWithBackground;
+  } else {
+    return cardWithoutBackground;
+  }
 };
 
 export default WidgetCard;

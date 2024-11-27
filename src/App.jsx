@@ -27,7 +27,7 @@ const weatherMeTheme = createTheme({
       main: "#388e3c",
     },
     background: {
-      paper: "rgba(230,230,230,0.1)",
+      paper: "#4C4A49",
       default: "#242526",
     },
     text: {

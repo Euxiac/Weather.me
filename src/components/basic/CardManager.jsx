@@ -31,47 +31,50 @@ import DateRangeIcon from "@mui/icons-material/DateRange";
 import PetsIcon from "@mui/icons-material/Pets";
 
 const CardManager = () => {
-    const handleAddCard = (widgetType) => {
-        setNewCard(widgetType);
-        widgetType ? addCard() : null;
-      };
-      
-      const availableWidgets = [
-        {
-          name: "Weather Right Now",
-          icon: <TodayIcon />,
-          widget: <Widget_RightNow />,
-          action: () => handleAddCard(<Widget_RightNow />),
-        },
-        {
-          name: "Coming Week Forecast",
-          icon: <DateRangeIcon />,
-          widget: <Widget_ComingWeek />,
-          action: () => handleAddCard(<Widget_ComingWeek />),
-        },
-        {
-          name: "Duck",
-          icon: <PetsIcon />,
-          widget: <Widget_Duck />,
-          action: () => handleAddCard(<Widget_Duck />),
-        },
-      ];
-      
+  const handleAddCard = (widgetEntry) => {
+    addCard(availableWidgets[widgetEntry]);
+    toggleDrawer(false)
+  };
+
+  const availableWidgets = [
+    {
+      name: "Weather Right Now",
+      icon: <TodayIcon />,
+      widget: <Widget_RightNow />,
+      background: true,
+      action: () => handleAddCard(0),
+    },
+    {
+      name: "Coming Week Forecast",
+      icon: <DateRangeIcon />,
+      widget: <Widget_ComingWeek />,
+      background: false,
+      action: () => handleAddCard(1),
+    },
+    {
+      name: "Duck",
+      icon: <PetsIcon />,
+      widget: <Widget_Duck />,
+      background: true,
+      action: () => handleAddCard(2),
+    },
+  ];
+
   const [cards, setCards] = useState([{ id: 1, widget: availableWidgets[2] }]);
-  const [newCard, setNewCard] = useState(); // Track the new card's content
+  const [newCardContent, setNewCardContent] = useState(); // Track the new card's content
 
   // Function to handle removing a card by its id
   const deleteCard = (id) => {
     setCards(cards.filter((card) => card.id !== id)); // Remove the card with the given id
   };
   // Function to handle adding a new card
-  const addCard = () => {
+  const addCard = (widgetEntry) => {
     const newCard = {
       id: uuidv4(), // Generate a unique ID for the new card
-      widget: newCard
+      widget: widgetEntry,
     };
     setCards((prevCards) => [...prevCards, newCard]); // Add new card to the state
-    setNewCard(""); // Clear the input after adding the card
+    setNewCardContent(""); // Clear the input after adding the card
   };
 
   //--------------------------------------------------------------------------------
@@ -113,7 +116,7 @@ const CardManager = () => {
   return (
     <div>
       {/* List of Cards */}
-      <Stack id="body_WidgetStack" direction="column" spacing={3}>
+      <Stack id="body_WidgetStack" direction="column" spacing={3} sx={{paddingBottom:50}}>
         {cards.map((card) => (
           <WidgetCard
             key={card.id}
