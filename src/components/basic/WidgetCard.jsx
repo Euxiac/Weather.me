@@ -32,6 +32,7 @@ const WidgetCard = ({ card, deleteCard }) => {
   // Delete Dialog ----------------------------------------------------------------------------------------
 
   const handleDeleteClickOpen = () => {
+    console.log(background);
     setDeleteOpen(true);
   };
 
@@ -122,64 +123,30 @@ const WidgetCard = ({ card, deleteCard }) => {
     setIsHolding(false); // Reset holding state
   };
 
-  /*
-  // Handle mouse leave (or touch end for cases where the user moves out of the card)
-  const handleMouseLeave = () => {
-    if (timerRef.current) {
-      clearTimeout(timerRef.current); // Clear the timer if the user moves the mouse out
-    }
-    if (!isHolding) {
-      setContent(initialContent);
-    }
-    setIsHolding(false);
-  };*/
+  const CardWithContent = () => (
+    <Card
+      elevation={1}
+      sx={{
+        minWidth: 275,
+        margin: "16px",
+        borderRadius: "8px",
+        background: background ? "#4C4A49" : "rgba(0, 0, 0, 0.0)",
+      }}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+      onTouchStart={handleMouseDown}
+      onTouchEnd={handleMouseUp}
+    >
+      {content}
+    </Card>
+  );
 
-  const cardWithBackground = (
+  return (
     <>
-      <Card
-        elevation={1}
-        sx={{ minWidth: 275, margin: "16px", borderRadius: "8px" }}
-        onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseUp}
-        //onMouseLeave={handleMouseLeave}
-        onTouchStart={handleMouseDown}
-        onTouchEnd={handleMouseUp}
-      >
-        {content}
-      </Card>
-
+      <CardWithContent />
       <DeleteDialog />
     </>
   );
-
-  const cardWithoutBackground = (
-    <>
-      <Card
-        elevation={1}
-        sx={{
-          minWidth: 275,
-          margin: "16px",
-          borderRadius: "8px",
-          background: "rgba(0, 0, 0, 0.0)",
-        }}
-        onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseUp}
-        //onMouseLeave={handleMouseLeave}
-        onTouchStart={handleMouseDown}
-        onTouchEnd={handleMouseUp}
-      >
-        {content}
-      </Card>
-
-      <DeleteDialog />
-    </>
-  );
-
-  if (background) {
-    return cardWithBackground;
-  } else {
-    return cardWithoutBackground;
-  }
 };
 
 export default WidgetCard;
