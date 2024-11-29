@@ -97,28 +97,28 @@ const WidgetCard = ({ card, deleteCard }) => {
             height: "100%",
           }}
         >
-          <IconButton aria-label="ArrowCircleLeftIcon"
+          <IconButton aria-label="CardBack"
             size="large"
             fontSize="large"
             onClick={resetWidget}>
             <ArrowCircleLeftIcon fontSize="inherit" />
           </IconButton>
 
-          <IconButton aria-label="ArrowCircleLeftIcon"
+          <IconButton aria-label="CardReorder"
             size="large"
             fontSize="large"
-            disabled="true">
+            disabled>
             <SwapVerticalCircleIcon fontSize="inherit" />
           </IconButton>
 
-          <IconButton aria-label="ArrowCircleLeftIcon"
+          <IconButton aria-label="CardEdit"
             size="large"
             fontSize="large"
-            disabled="true">
+            disabled>
             <BuildCircleIcon fontSize="inherit" />
           </IconButton>
           
-          <IconButton aria-label="ArrowCircleLeftIcon"
+          <IconButton aria-label="CardDelete"
             size="large"
             fontSize="medium"
             onClick={handleDeleteClickOpen}>
