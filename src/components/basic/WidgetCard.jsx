@@ -19,6 +19,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import HeightMaintainingContainer from "./HeightMaintainingContainer";
 
 const WidgetCard = ({ card, deleteCard }) => {
   const background = card.widget.background;
@@ -79,18 +80,6 @@ const WidgetCard = ({ card, deleteCard }) => {
             onClick={resetWidget}
           />
 
-          <SwapVerticalCircleIcon
-            aria-label="SwapVerticalCircleIcon"
-            size="large"
-            fontSize="large"
-          />
-
-          <BuildCircleIcon
-            aria-label="BuildCircleIcon"
-            size="large"
-            fontSize="large"
-          />
-
           <CancelIcon
             aria-label="CancelIcon"
             size="large"
@@ -129,7 +118,7 @@ const WidgetCard = ({ card, deleteCard }) => {
         minWidth: 275,
         margin: "16px",
         borderRadius: "8px",
-        background: background ? "#4C4A49" : "rgba(0, 0, 0, 0.0)",
+        background: background ? "#4C4A49" : "rgba(0, 0, 0, 0.0)", transition: 'height 0.3s ease'
       }}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
