@@ -20,6 +20,7 @@ import SwapVerticalCircleIcon from "@mui/icons-material/SwapVerticalCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import SettingsIcon from "@mui/icons-material/Settings";
+import * as formComponents from "./forms";
 
 // WidgetCard Component
 const WidgetCard = ({ card, deleteCard }) => {
@@ -67,10 +68,19 @@ const WidgetCard = ({ card, deleteCard }) => {
     resetWidget();
   };
 
+  //when delete is confirmed in dialogue
   const handleDeleteConfirm = () => {
     setDeleteOpen(false);
     deleteCard(card.id); // Confirm delete and trigger card deletion
   };
+
+  // so i couldnt figure out how to reset the form to initial content so this one replaces the contents of the form to pass resetWidget
+  const addResetToForm = () => {
+    if (card.widget.forms[0].form = <formComponents.UnitForm />) {
+      card.widget.forms[0].form = <formComponents.UnitForm resetWidget={resetWidget}/>
+    }
+  }
+  addResetToForm();
 
   //Card Content for Forms (change settings of cards)
   const handleFormMode = () => {
@@ -108,8 +118,6 @@ const WidgetCard = ({ card, deleteCard }) => {
         </Stack>
       </CardContent>
     );
-    console.log(card.widget.forms.length);
-    console.log();
     handleCardStateChange(formContent);
   };
 

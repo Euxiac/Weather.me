@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 
-
 import {
   Button,
   CardContent,
@@ -17,18 +16,65 @@ import {
   RadioGroup,
 } from "@mui/material";
 
-export const NameForm = () => {
-  const [name, setName] = useState("Luke");
+//Form to change Name, stored in sessionStorage
+export const NameForm = (resetManager) => {
+  const [name, setName] = useState(
+    sessionStorage.getItem("userName") ? sessionStorage.getItem("userName") : ""
+  );
+  const [greeting, setGreeting] = useState("Hello, "); // State for the greeting message
+
+  // Handle input change
+  const handleInputChange = (event) => {
+    setName(event.target.value);
+  };
+
+  // Handle form submit
+  const handleSubmit = () => {
+    if (name) {
+      sessionStorage.setItem("userName", name);
+      resetManager.resetManager();
+    }
+  };
 
   return (
-      <Stack direction="column" spacing={2}>
-        <Typography variant="h5">What's your name?</Typography>
-        <TextField required id="outlined" defaultValue="Luke" />
-      </Stack>
+    <Stack direction="column" spacing={2}>
+      <Typography variant="h5">What's your name?</Typography>
+      <TextField
+        label="Name"
+        variant="outlined"
+        value={name}
+        onChange={handleInputChange}
+        fullWidth
+        margin="normal"
+        autoCapitalize="words"
+      />
+      <Button
+        variant="outlined"
+        onClick={handleSubmit}
+        //updateUserName(false);
+      >
+        Change Name
+      </Button>
+    </Stack>
   );
-}
+};
 
-export const LocationForm= () => {
+//Form to change Location, stored in sessionStorage
+export const LocationForm = (resetManager) => {
+  const [country, setCountry] = useState(
+    sessionStorage.getItem("userCountry")
+      ? sessionStorage.getItem("userCountry")
+      : ""
+  );
+  const [state, setState] = useState(
+    sessionStorage.getItem("userState")
+      ? sessionStorage.getItem("userState")
+      : ""
+  );
+  const [city, setCity] = useState(
+    sessionStorage.getItem("userCity") ? sessionStorage.getItem("userCity") : ""
+  );
+
   const countries = [
     {
       value: "0",
@@ -70,15 +116,42 @@ export const LocationForm= () => {
     },
   ];
 
+  // Handle input change
+  const handleInputChangeCountry = (event) => {
+    setCountry(event.target.value);
+  };
+
+  const handleInputChangeState = (event) => {
+    setState(event.target.value);
+  };
+
+  const handleInputChangeCity = (event) => {
+    setCity(event.target.value);
+  };
+
+  // Handle form submit
+  const handleSubmit = () => {
+    if (country && state && city) {
+      sessionStorage.setItem("userCountry", country);
+      sessionStorage.setItem("userState", state);
+      sessionStorage.setItem("userCity", city);
+      resetManager.resetManager();
+    }
+  };
+
   return (
     <Stack direction="column" spacing={3}>
       <Typography variant="h5">Where are you located?</Typography>
       <TextField
-        id="outlined-select-country"
         select
         label="Select Country"
-        defaultValue="0"
-        helperText="Please select your country"
+        variant="outlined"
+        value={country}
+        onChange={handleInputChangeCountry}
+        fullWidth
+        margin="normal"
+        autoCapitalize="words"
+        helperText="Limited countries are currently supported"
       >
         {countries.map((option) => (
           <MenuItem key={option.value} value={option.value}>
@@ -89,10 +162,13 @@ export const LocationForm= () => {
 
       <Stack direction="row" spacing={2}>
         <TextField
-          id="outlined-select-state"
           select
           label="Select State"
-          defaultValue="0"
+          variant="outlined"
+          value={state}
+          onChange={handleInputChangeState}
+          margin="normal"
+          autoCapitalize="words"
           helperText="Please select your state"
           sx={{ width: "50%" }}
         >
@@ -104,10 +180,13 @@ export const LocationForm= () => {
         </TextField>
 
         <TextField
-          id="outlined-select-city"
           select
           label="Select City"
-          defaultValue="0"
+          variant="outlined"
+          value={city}
+          onChange={handleInputChangeCity}
+          margin="normal"
+          autoCapitalize="words"
           helperText="Please select your city"
           sx={{ width: "50%" }}
         >
@@ -117,20 +196,25 @@ export const LocationForm= () => {
             </MenuItem>
           ))}
         </TextField>
-        <Button
-        variant="outlined"
-        onClick={() => {
-          setEditState(false);
-        }}
-      >
-        Change Location
-      </Button>
       </Stack>
+      <Button
+        variant="outlined"
+        onClick={handleSubmit}
+        //updateUserName(false);
+      >
+        Change Name
+      </Button>
     </Stack>
   );
-}
+};
 
-export const UnitForm = () => {
+
+//Form to change Units, stored in sessionStorage
+export const UnitForm = (resetWidget) => {
+  const [unit, setUnit] = useState(
+    sessionStorage.getItem("unit") ? sessionStorage.getItem("unit") : ""
+  );
+
   const units = [
     {
       value: "0",
@@ -141,14 +225,29 @@ export const UnitForm = () => {
       label: "Imperial",
     },
   ];
+
+  // Handle input change
+  const handleInputChangeUnit = (event) => {
+    setUnit(event.target.value);
+  };
+
+  // Handle form submit
+  const handleSubmit = () => {
+    if (unit) {
+      sessionStorage.setItem("unit", unit);
+      resetWidget.resetWidget();
+    }
+  };
+
   return (
     <Stack direction="column" spacing={2}>
       <FormControl>
         <FormLabel id="demo-radio-buttons-group-label">Units</FormLabel>
         <RadioGroup
           aria-labelledby="demo-radio-buttons-group-label"
-          defaultValue="female"
           name="radio-buttons-group"
+          value={unit}
+          onChange={handleInputChangeUnit}
         >
           {units.map((option) => (
             <FormControlLabel
@@ -162,14 +261,13 @@ export const UnitForm = () => {
       </FormControl>
       <Button
         variant="outlined"
-        onClick={() => {
-          setEditState(false);
-        }}
+        onClick={handleSubmit} // Call the handleSubmit function correctly
       >
         Change Units
       </Button>
     </Stack>
   );
-}
+};
+
 
 export default NameForm;

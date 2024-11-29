@@ -9,6 +9,7 @@ import CardManager from "./components/basic/CardManager";
 
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import UserManager from "./components/basic/UserManager";
 
 const weatherMeTheme = createTheme({
   palette: {
@@ -40,7 +41,7 @@ const WeatherMeApp = () => {
         <Container maxWidth="sm" elevation={0}>
           <Box>
             <Stack id="stackOfStacks" direction="column" spacing={6}>
-              <Widget_Header />
+              <UserManager />
               <CardManager />
             </Stack>
           </Box>

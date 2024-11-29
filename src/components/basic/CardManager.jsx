@@ -27,6 +27,8 @@ import Widget_Duck from "../widgets/Widget_Duck";
 import WidgetCard from "./WidgetCard"; // WidgetCard component
 import * as formComponents from "./forms";
 
+
+//this manages the widget cards 
 const CardManager = () => {
   const [cards, setCards] = useState([]);
   const [open, setOpen] = useState(false); // Drawer open state
@@ -43,20 +45,20 @@ const CardManager = () => {
   };
 
   // Available widgets for the Drawer menu
-  const availableWidgets = [
+  let availableWidgets = [
     {
       name: "Weather Right Now",
       icon: <TodayIcon />,
       background: true,
       widget: <Widget_RightNow />,
-      forms: [{ id:0, form:<formComponents.UnitForm/>}],
+      forms: [{ id:0, name:"UnitForm", form:<formComponents.UnitForm/>}],
     },
     {
       name: "Coming Week Forecast",
       icon: <DateRangeIcon />,
       background: false,
       widget: <Widget_ComingWeek />,
-      forms: [{id:0, form:<formComponents.UnitForm />}],
+      forms: [{id:0, name:"UnitForm", form:<formComponents.UnitForm />}],
     },
     {
       name: "Duck",
