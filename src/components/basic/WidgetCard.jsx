@@ -3,35 +3,70 @@ import {
   Button,
   Card,
   CardContent,
-  Typography,
   CardActionArea,
+  Stack,
+  Dialog,
+  DialogActions,
+  DialogTitle, 
+  IconButton,
 } from "@mui/material";
+
 import BuildCircleIcon from "@mui/icons-material/BuildCircle";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import SwapVerticalCircleIcon from "@mui/icons-material/SwapVerticalCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import SettingsIcon from "@mui/icons-material/Settings";
-import Stack from "@mui/material/Stack";
 
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import HeightMaintainingContainer from "./HeightMaintainingContainer";
-
+// WidgetCard Component
 const WidgetCard = ({ card, deleteCard }) => {
-  const background = card.widget.background;
-  const [deleteOpen, setDeleteOpen] = React.useState(false);
-  const holdTime = 1000;
+  // State and Refs Initialization
+  const [cardHeight, setCardHeight] = useState("inherit");
+  const [elevation, setElevation] = useState(1);
+  const [deleteOpen, setDeleteOpen] = useState(false);
   const initialContent = card.widget.widget;
   const [content, setContent] = useState(initialContent);
-  const [isHolding, setIsHolding] = useState(false); // Track whether the user is holding
-  const timerRef = useRef(null); // Ref to store the timeout ID
+  const [isHolding, setIsHolding] = useState(false); // Track holding state
+  const cardRef = useRef(null); // Ref for Card element
+  const timerRef = useRef(null); // Ref for timer (to detect hold)
+  const holdTime = 1000; // Time threshold for holding to show settings dialog
+  const background = card.widget.background; // Whether or not card should have a background, passed from card data in CardManager
 
-  // Delete Dialog ----------------------------------------------------------------------------------------
+  // Handle MouseDown or TouchStart (Start holding the card)
+  const handleMouseDown = () => {
+    timerRef.current = setTimeout(() => {
+      setIsHolding(true);
+      handleCardStateChange(cardToolsContent); // Change content after hold time
+    }, holdTime);
+  };
 
+  // Handle MouseUp or TouchEnd (Stop holding)
+  const handleMouseUp = () => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current); // Clear the timer if holding wasn't long enough
+    }
+    if (content === initialContent && !isHolding) {
+      handleCardStateChange(initialContent); // Reset content if not held
+    }
+    setIsHolding(false); // Reset holding state
+  };
+
+  // Handle Card State Change (Switch between content)
+  const handleCardStateChange = (newContent) => {
+    setContent(newContent); // Update content of the card
+    if (newContent === initialContent) {
+      setCardHeight("inherit"); // Reset height to auto if original content
+    } else {
+      setCardHeight(cardRef.current.offsetHeight); // Set specific height if content changed
+    }
+  };
+
+  // Reset Widget to Initial Content
+  const resetWidget = () => {
+    handleCardStateChange(initialContent); // Reset to original content
+  };
+
+  // Delete Dialog - Open and Confirm/Delete
   const handleDeleteClickOpen = () => setDeleteOpen(true);
   const handleDeleteClose = () => {
     setDeleteOpen(false);
@@ -40,13 +75,60 @@ const WidgetCard = ({ card, deleteCard }) => {
 
   const handleDeleteConfirm = () => {
     setDeleteOpen(false);
-    deleteCard(card.id);
+    deleteCard(card.id); // Confirm delete and trigger card deletion
   };
 
-  const resetWidget = () => {
-    setContent(initialContent);
-  };
+  // Card Content for Settings (Tools for interacting with the card)
+  const cardToolsContent = (
+    <CardContent
+      sx={{
+        height: "100%",
+        background: background ? "rgba(0, 0, 0, 0.0)" : "#4C4A49",
+      }}
+    >
+        <Stack
+          className="Card_Settings"
+          direction="row"
+          spacing={2}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          <IconButton aria-label="ArrowCircleLeftIcon"
+            size="large"
+            fontSize="large"
+            onClick={resetWidget}>
+            <ArrowCircleLeftIcon fontSize="inherit" />
+          </IconButton>
 
+          <IconButton aria-label="ArrowCircleLeftIcon"
+            size="large"
+            fontSize="large"
+            disabled="true">
+            <SwapVerticalCircleIcon fontSize="inherit" />
+          </IconButton>
+
+          <IconButton aria-label="ArrowCircleLeftIcon"
+            size="large"
+            fontSize="large"
+            disabled="true">
+            <BuildCircleIcon fontSize="inherit" />
+          </IconButton>
+          
+          <IconButton aria-label="ArrowCircleLeftIcon"
+            size="large"
+            fontSize="medium"
+            onClick={handleDeleteClickOpen}>
+            <CancelIcon fontSize="inherit" />
+          </IconButton>
+        </Stack>
+    </CardContent>
+  );
+
+  // Delete Dialog Component
   const DeleteDialog = () => (
     <Dialog
       open={deleteOpen}
@@ -64,61 +146,19 @@ const WidgetCard = ({ card, deleteCard }) => {
     </Dialog>
   );
 
-  // Hold to access settings ---------------------------------------------------------------------------------
-
-  const pressedContent = (
-    <CardContent>
-      <CardActionArea>
-        <Stack className="Card_Settings" direction="row" spacing={3} sx={{display: "flex", // Enable flexbox
-        justifyContent: "center", // Center content horizontally
-        alignItems: "center", // Center content vertically
-        height: "100%"}}>
-          <ArrowCircleLeftIcon
-            aria-label="ArrowCircleLeftIcon"
-            size="large"
-            fontSize="large"
-            onClick={resetWidget}
-          />
-
-          <CancelIcon
-            aria-label="CancelIcon"
-            size="large"
-            fontSize="large"
-            onClick={handleDeleteClickOpen}
-          />
-        </Stack>
-      </CardActionArea>
-    </CardContent>
-  );
-
-  // Handle mouse down (or touch start)
-  const handleMouseDown = () => {
-    timerRef.current = setTimeout(() => {
-      setIsHolding(true);
-      setContent(pressedContent); // Change content after holding for the defined time
-    }, holdTime); // Set delay to `holdTime` (in ms)
-  };
-
-  // Handle mouse up (or touch end)
-  const handleMouseUp = () => {
-    if (timerRef.current) {
-      clearTimeout(timerRef.current); // Clear the timer if the user releases the mouse too soon
-    }
-    if (content === initialContent && !isHolding) {
-      // If holding was not detected, reset the content
-      setContent(initialContent);
-    }
-    setIsHolding(false); // Reset holding state
-  };
-
+  // TOP LEVEL Card Component with Dynamic Content
   const CardWithContent = () => (
     <Card
-      elevation={1}
+      ref={cardRef}
+      elevation={elevation}
+      style={{ cursor: 'pointer' }}
       sx={{
         minWidth: 275,
         margin: "16px",
         borderRadius: "8px",
-        background: background ? "#4C4A49" : "rgba(0, 0, 0, 0.0)", transition: 'height 0.3s ease'
+        height: cardHeight,
+        background: background ? "#4C4A49" : "rgba(0, 0, 0, 0.0)",
+        transition: "height 0.3s ease",
       }}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
@@ -129,6 +169,7 @@ const WidgetCard = ({ card, deleteCard }) => {
     </Card>
   );
 
+  // Return JSX with Card and Delete Dialog
   return (
     <>
       <CardWithContent />
