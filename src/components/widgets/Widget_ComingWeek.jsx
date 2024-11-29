@@ -8,9 +8,9 @@ import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 
 import { fetch8DaysWeather, fetchCurrentTime } from "../../services/apiService";
-import mock_weather from "./mock_data/mock_weather.json";
-import mock_time from "./mock_data/mock_time.json";
-import { UsingMockData_warning } from "./widget_components/Card_Alerts";
+import mock_weather from "../../data/mock_weather.json";
+import mock_time from "../../data/mock_time.json";
+import { UsingMockData_warning } from "../basic/Card_Alerts";
 import returnIcon from "../../Utilities/returnIcon";
 
 function Widget_ComingWeek() {

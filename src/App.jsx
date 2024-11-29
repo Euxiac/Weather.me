@@ -4,14 +4,7 @@ import { Container } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import NavigationBar from "./components/basic/NavigationBar";
-import AddCard from "./components/widgets/AddCard";
-import Widget_RightNow from "./components/widgets/Widget_RightNow";
-import Widget_Duck from "./components/widgets/Widget_Duck";
-import Widget_ComingWeek from "./components/widgets/Widget_ComingWeek";
-import Widget from "./components/basic/Widget";
 import Widget_Header from "./components/widgets/Widget_Header";
-import CustomCard from "./components/widgets/CustomCard";
-import WidgetCard from "./components/basic/WidgetCard";
 import CardManager from "./components/basic/CardManager";
 
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -48,7 +41,7 @@ const WeatherMeApp = () => {
           <Box>
             <Stack id="stackOfStacks" direction="column" spacing={6}>
               <Widget_Header />
-              <CardManager/>
+              <CardManager />
             </Stack>
           </Box>
         </Container>

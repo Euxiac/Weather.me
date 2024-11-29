@@ -6,8 +6,8 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
 import { fetchCurrentWeather } from "../../services/apiService";
-import mock_weather from "./mock_data/mock_weather.json";
-import { UsingMockData_warning } from "./widget_components/Card_Alerts";
+import mock_weather from "../../data/mock_weather.json";
+import { UsingMockData_warning } from "../basic/Card_Alerts";
 import returnIcon from "../../Utilities/returnIcon";
 import Stack from "@mui/material/Stack";
 import Grid from "@mui/material/Grid2";
