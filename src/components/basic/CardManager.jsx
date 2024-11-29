@@ -25,6 +25,7 @@ import Widget_RightNow from "../widgets/Widget_RightNow";
 import Widget_ComingWeek from "../widgets/Widget_ComingWeek";
 import Widget_Duck from "../widgets/Widget_Duck";
 import WidgetCard from "./WidgetCard"; // WidgetCard component
+import * as formComponents from "./forms";
 
 const CardManager = () => {
   const [cards, setCards] = useState([]);
@@ -48,18 +49,21 @@ const CardManager = () => {
       icon: <TodayIcon />,
       background: true,
       widget: <Widget_RightNow />,
+      forms: [{ id:0, form:<formComponents.UnitForm/>}],
     },
     {
       name: "Coming Week Forecast",
       icon: <DateRangeIcon />,
       background: false,
       widget: <Widget_ComingWeek />,
+      forms: [{id:0, form:<formComponents.UnitForm />}],
     },
     {
       name: "Duck",
       icon: <PetsIcon />,
       background: true,
       widget: <Widget_Duck />,
+      forms: [],
     },
   ];
 

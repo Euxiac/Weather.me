@@ -10,8 +10,6 @@ import {
   DialogTitle,
   IconButton,
   Box,
-  Typography,
-  Divider,
 } from "@mui/material";
 
 import BuildCircleIcon from "@mui/icons-material/BuildCircle";
@@ -27,6 +25,7 @@ const WidgetCard = ({ card, deleteCard }) => {
   const [cardHeight, setCardHeight] = useState("inherit");
   const [elevation, setElevation] = useState(1);
   const [deleteOpen, setDeleteOpen] = useState(false);
+  const [cardMode, setCardMode] = useState('initial');
   const initialContent = card.widget.widget;
   const [content, setContent] = useState(initialContent);
   const [isHolding, setIsHolding] = useState(false); // Track holding state
@@ -34,13 +33,12 @@ const WidgetCard = ({ card, deleteCard }) => {
   const timerRef = useRef(null); // Ref for timer (to detect hold)
   const holdTime = 1000; // Time threshold for holding to show settings dialog
   const background = card.widget.background; // Whether or not card should have a background, passed from card data in CardManager
-  const hasForm = card.widget.forms.length != 0 ? true : false;
 
   // Handle MouseDown or TouchStart (Start holding the card)
   const handleMouseDown = () => {
     timerRef.current = setTimeout(() => {
       setIsHolding(true);
-      handleCardStateChange(cardToolsContent); // Change content after hold time
+      handleCardModeChange('tools'); // Change content after hold time
     }, holdTime);
   };
 
@@ -49,15 +47,25 @@ const WidgetCard = ({ card, deleteCard }) => {
     if (timerRef.current) {
       clearTimeout(timerRef.current); // Clear the timer if holding wasn't long enough
     }
-    if (content === initialContent && !isHolding) {
-      handleCardStateChange(initialContent); // Reset content if not held
+    if (cardMode === 'initial' && !isHolding) {
+      handleCardModeChange('initial'); // Reset content if not held
     }
     setIsHolding(false); // Reset holding state
   };
 
+  // Handle Card State Change (Switch between content)
+  const handleCardModeChange = (newMode) => {
+    setCardMode(newMode); // Update mode of the card
+    if (newMode === 'initial') {
+      setCardHeight("inherit"); // Reset height to auto if original content
+    } else {
+      setCardHeight(cardRef.current.offsetHeight); // Set specific height if content changed
+    }
+  };
+
   // Reset Widget to Initial Content
   const resetWidget = () => {
-    handleCardStateChange(initialContent); // Reset to original content
+    handleCardModeChange('initial'); // Reset to original content
   };
 
   // Delete Dialog - Open and Confirm/Delete
@@ -70,47 +78,6 @@ const WidgetCard = ({ card, deleteCard }) => {
   const handleDeleteConfirm = () => {
     setDeleteOpen(false);
     deleteCard(card.id); // Confirm delete and trigger card deletion
-  };
-
-  //Card Content for Forms (change settings of cards)
-  const handleFormMode = () => {
-    const formContent = (
-      <CardContent
-        sx={{
-          height: "100%",
-          background: background ? "rgba(0, 0, 0, 0.0)" : "#4C4A49",
-        }}
-      >
-        <Stack className="Card_Settings" direction="column" spacing={2}>
-          <Stack className="Card_Settings" direction="row" spacing={2} sx={{
-          display: "flex",
-          justifyContent: "left",
-          alignItems: "center",
-          height: "100%",
-        }}>
-            <IconButton
-              aria-label="CardBack"
-              size="large"
-              fontSize="large"
-              onClick={resetWidget}
-            >
-              <ArrowCircleLeftIcon fontSize="inherit" />
-            </IconButton>
-
-            <Typography variant="">Widget Settings</Typography>
-          </Stack>
-
-          <Divider/>
-
-          {card.widget.forms.map(({ id, form }) => (
-            <Box key={id}>{form}</Box>
-          ))}
-        </Stack>
-      </CardContent>
-    );
-    console.log(card.widget.forms.length);
-    console.log();
-    handleCardStateChange(formContent);
   };
 
   // Card Content for Settings (Tools for interacting with the card)
@@ -133,7 +100,7 @@ const WidgetCard = ({ card, deleteCard }) => {
         }}
       >
         <IconButton
-          aria-label="CardBack"
+          aria-label="ArrowCircleLeftIcon"
           size="large"
           fontSize="large"
           onClick={resetWidget}
@@ -142,7 +109,7 @@ const WidgetCard = ({ card, deleteCard }) => {
         </IconButton>
 
         <IconButton
-          aria-label="CardReorder"
+          aria-label="ArrowCircleLeftIcon"
           size="large"
           fontSize="large"
           disabled
@@ -151,17 +118,16 @@ const WidgetCard = ({ card, deleteCard }) => {
         </IconButton>
 
         <IconButton
-          aria-label="CardEdit"
+          aria-label="ArrowCircleLeftIcon"
           size="large"
           fontSize="large"
-          disabled={!hasForm}
-          onClick={hasForm ? handleFormMode : null}
+          disabled
         >
           <BuildCircleIcon fontSize="inherit" />
         </IconButton>
 
         <IconButton
-          aria-label="CardDelete"
+          aria-label="ArrowCircleLeftIcon"
           size="large"
           fontSize="medium"
           onClick={handleDeleteClickOpen}
@@ -171,16 +137,6 @@ const WidgetCard = ({ card, deleteCard }) => {
       </Stack>
     </CardContent>
   );
-
-  // Handle Card State Change (Switch between content)
-  const handleCardStateChange = (newContent) => {
-    setContent(newContent); // Update content of the card
-    if (newContent === cardToolsContent) {
-      setCardHeight(cardRef.current.offsetHeight); // Set specific height if content changed
-    } else {
-      setCardHeight("inherit"); // Reset height to auto if original content
-    }
-  };
 
   // Delete Dialog Component
   const DeleteDialog = () => (
@@ -199,6 +155,21 @@ const WidgetCard = ({ card, deleteCard }) => {
       </DialogActions>
     </Dialog>
   );
+
+  const WidgetBody = () => {
+    return (
+    <>
+      <Box className="widgetBody" sx={{ visibility: cardMode=='initial'? 'initial' : "hidden", height: cardMode=='initial'? 'inherit' : 0}}>
+        {initialContent}
+      </Box>
+      <Box className="cardToolsBody" sx={{ visibility: cardMode=='tools'? 'initial' : 'hidden', height: cardMode=='tools'? 'inherit' : 0 }}>
+        {cardToolsContent}
+      </Box>
+      <Box className="cardFormBody" sx={{ visibility:cardMode=='form'? 'initial' : 'hidden', height: cardMode=='tools'? 'inherit' : 0  }}>
+      <p>form</p>
+      </Box>
+    </>);
+  };
 
   // TOP LEVEL Card Component with Dynamic Content
   const CardWithContent = () => (
@@ -219,7 +190,7 @@ const WidgetCard = ({ card, deleteCard }) => {
       onTouchStart={handleMouseDown}
       onTouchEnd={handleMouseUp}
     >
-      {content}
+      <WidgetBody />
     </Card>
   );
 
