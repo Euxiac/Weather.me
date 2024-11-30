@@ -11,8 +11,10 @@ import { UsingMockData_warning } from "../basic/Card_Alerts";
 import returnIcon from "../../Utilities/returnIcon";
 import Stack from "@mui/material/Stack";
 import Grid from "@mui/material/Grid2";
+import * as TimeUtils from "../utility/TimeUtils";
 
 function Widget_RightNow() {
+  const [lastUpdate, setLastUpdate] = useState("");
   const [usingMockData, setUsingMockData] = useState(false);
   const [currentWeather, setCurrentWeather] = useState({
     weather: "",
@@ -25,41 +27,42 @@ function Widget_RightNow() {
   });
 
   useEffect(() => {
-    //console.log("effect run on Right Now");
-    fetchCurrentWeather()
-      //.fetchRightNow returns a promise that will be fulfilled at some point and then it runs .then. Promise success
-      .then((res) => {
-        //console.log(res);
-        const currData = res.data.current;
-        setUsingMockData(false);
-        const weatherData = currData.weather[0];
-        setCurrentWeather({
-          weather: weatherData.main,
-          desc: weatherData.description,
-          icon: weatherData.icon,
-        });
-        setCurrentTemperature({
-          temperature: currData.temp,
-          feels_like: currData.feels_like,
-        });
-      })
-      // you can also use .catch for in case your promise has errors. Promise fail
-      .catch((err) => {
-        console.log(err);
-        //on catch use mock data instead
-        const currData = mock_weather.current;
-        const weatherData = currData.weather[0];
-        setUsingMockData(true);
-        setCurrentWeather({
-          weather: weatherData.main,
-          desc: weatherData.description,
-          icon: weatherData.icon,
-        });
-        setCurrentTemperature({
-          temperature: currData.temp,
-          feels_like: currData.feels_like,
-        });
+    //this is reused to fill in the info depending on the source determined
+    const fillInfo = (source) => {
+      const currData = source;
+      const weatherData = currData.weather[0];
+      setCurrentWeather({
+        weather: weatherData.main,
+        desc: weatherData.description,
+        icon: weatherData.icon,
       });
+      setCurrentTemperature({
+        temperature: currData.temp,
+        feels_like: currData.feels_like,
+      });
+    };
+
+    //if no data or data is outdated, fetchCurrentWeather from API
+    if (sessionStorage.getItem("weather_current") === null || TimeUtils.MinuteIsCurrent() == false) {
+      fetchCurrentWeather()
+        .then((res) => {
+          const fetchData = res.data.current;
+          sessionStorage.setItem("weather_current", JSON.stringify(res.data.current));
+
+          setUsingMockData(false);
+          fillInfo(JSON.parse(sessionStorage.getItem("weather_current")));
+        })
+        .catch((err) => {
+          console.log(err);
+          setUsingMockData(true);
+          fillInfo(mock_weather.current);
+        });
+    } else {
+      const currData = JSON.parse(sessionStorage.getItem("weather_current"));
+
+      setUsingMockData(false);
+      fillInfo(JSON.parse(sessionStorage.getItem("weather_current")));
+    }
   }, []);
 
   return (

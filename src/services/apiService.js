@@ -18,7 +18,7 @@ export const fetchCurrentWeather = async () => {
           "Content-Type": "application/json",
         },
       });
-
+      console.log("fetching new currentWeather");
       // Return the response data (not `response.data` if you want only the results)
       return response.data; // The actual data returned by the API
     } catch (error) {
@@ -42,7 +42,7 @@ export const fetch8DaysWeather = async () => {
           "Content-Type": "application/json",
         },
       });
-
+      console.log("fetching new coming week Weather");
       // Return the response data (not `response.data` if you want only the results)
       return response.data; // The actual data returned by the API
     } catch (error) {
@@ -66,7 +66,7 @@ export const fetchCurrentTime = async () => {
           "Content-Type": "application/json",
         },
       });
-
+      console.log("fetching new currentTime");
       // Return the response data (not `response.data` if you want only the results)
       return response.data; // The actual data returned by the API
     } catch (error) {
