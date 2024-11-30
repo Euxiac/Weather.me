@@ -1,28 +1,78 @@
-import OpenWeather_key, { WorldTime_key } from "./credentials";
 import axios from "axios";
 
-const useCredentials= false;
-const openWeather_key = () => {return useCredentials ? OpenWeather_key : "null"}
-const worldTime_key = () => {return useCredentials ? WorldTime_key : "null"}
+const mockData = false;
 
 // {} => destructuring, when you have an object and just want one thing out of that object
 const location = { lat: -31.9558933, lon: 115.8605855 };
 
-export const fetchCurrentWeather = () => {
-    return axios.get(
-    `https://api.openweathermap.org/data/3.0/onecall?lat=${location.lat}&lon=${location.lon}&units=metric&lang=en&appid=${openWeather_key()}&exclude=minutely,hourly,daily,alerts`
-  );
+export const fetchCurrentWeather = async () => {
+  if (mockData) {
+    throw new Error(
+      `using mock data`
+    );
+  } else {
+    try {
+      const apiUrl = `http://localhost:8000/api/fetch-weather/current/${location.lat},${location.lon}`;
+      const response = await axios.get(apiUrl, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      // Return the response data (not `response.data` if you want only the results)
+      return response.data; // The actual data returned by the API
+    } catch (error) {
+      throw new Error(
+        `Error fetching current weather from query: ${error.message}`
+      );
+    }
+  }
 };
 
-export const fetch8DaysWeather = () => {
-  return axios.get(
-    `https://api.openweathermap.org/data/3.0/onecall?lat=${location.lat}&lon=${location.lon}&units=metric&lang=en&appid=${openWeather_key()}&exclude=current,minutely,hourly,alerts`
-  );
+export const fetch8DaysWeather = async () => {
+  if (mockData) {
+    throw new Error(
+      `using mock data`
+    );
+  } else {
+    try {
+      const apiUrl = `http://localhost:8000/api/fetch-weather/coming-week/${location.lat},${location.lon}`;
+      const response = await axios.get(apiUrl, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      // Return the response data (not `response.data` if you want only the results)
+      return response.data; // The actual data returned by the API
+    } catch (error) {
+      throw new Error(
+        `Error fetching current weather from query: ${error.message}`
+      );
+    }
+  }
 };
 
-export const fetchCurrentTime = () => {
-  return axios.get(
-    `https://api.api-ninjas.com/v1/worldtime?lat=${location.lat}&lon=${location.lon}`,
-    { headers: { "X-Api-Key": worldTime_key() } }
-  );
+export const fetchCurrentTime = async () => {
+  if (mockData) {
+    throw new Error(
+      `using mock data`
+    );
+  } else {
+    try {
+      const apiUrl = `http://localhost:8000/api/fetch-time/${location.lat},${location.lon}`;
+      const response = await axios.get(apiUrl, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      // Return the response data (not `response.data` if you want only the results)
+      return response.data; // The actual data returned by the API
+    } catch (error) {
+      throw new Error(
+        `Error fetching current weather from query: ${error.message}`
+      );
+    }
+  }
 };

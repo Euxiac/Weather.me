@@ -76,10 +76,14 @@ const WidgetCard = ({ card, deleteCard }) => {
 
   // so i couldnt figure out how to reset the form to initial content so this one replaces the contents of the form to pass resetWidget
   const addResetToForm = () => {
-    if (card.widget.forms[0].form = <formComponents.UnitForm />) {
-      card.widget.forms[0].form = <formComponents.UnitForm resetWidget={resetWidget}/>
+    if (card.widget.forms.length > 0) {
+      if ((card.widget.forms[0].form = <formComponents.UnitForm />)) {
+        card.widget.forms[0].form = (
+          <formComponents.UnitForm resetWidget={resetWidget} />
+        );
+      }
     }
-  }
+  };
   addResetToForm();
 
   //Card Content for Forms (change settings of cards)
@@ -92,12 +96,17 @@ const WidgetCard = ({ card, deleteCard }) => {
         }}
       >
         <Stack className="Card_Settings" direction="column" spacing={2}>
-          <Stack className="Card_Settings" direction="row" spacing={2} sx={{
-          display: "flex",
-          justifyContent: "left",
-          alignItems: "center",
-          height: "100%",
-        }}>
+          <Stack
+            className="Card_Settings"
+            direction="row"
+            spacing={2}
+            sx={{
+              display: "flex",
+              justifyContent: "left",
+              alignItems: "center",
+              height: "100%",
+            }}
+          >
             <IconButton
               aria-label="CardBack"
               size="large"
@@ -110,7 +119,7 @@ const WidgetCard = ({ card, deleteCard }) => {
             <Typography variant="">Widget Settings</Typography>
           </Stack>
 
-          <Divider/>
+          <Divider />
 
           {card.widget.forms.map(({ id, form }) => (
             <Box key={id}>{form}</Box>
