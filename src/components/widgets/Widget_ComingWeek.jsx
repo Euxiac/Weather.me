@@ -12,11 +12,12 @@ import mock_weather from "../../data/mock_weather.json";
 import mock_time from "../../data/mock_time.json";
 import { UsingMockData_warning } from "../basic/Card_Alerts";
 import returnIcon from "../../Utilities/returnIcon";
+import * as TimeUtils from "../utility/TimeUtils";
 
 function Widget_ComingWeek() {
   const weatherEntry = (day, data, ukey) => {
     return (
-      <Card key={ukey} sx={{ minWidth: 160}}>
+      <Card key={ukey} sx={{ minWidth: 160 }}>
         <Box
           direction="column"
           display="flex"
@@ -26,7 +27,7 @@ function Widget_ComingWeek() {
         >
           <Typography variant="caption">{day}</Typography>
         </Box>
-        <CardContent sx={{ pt: 0}}>
+        <CardContent sx={{ pt: 0 }}>
           <Stack spacing={2}>
             <Box>
               <Stack spacing={2}>
@@ -138,44 +139,48 @@ function Widget_ComingWeek() {
 
   useEffect(() => {
     //console.log("effect run on Coming Week");
-    fetch8DaysWeather()
-      .then((res) => {
-        //console.log("/ API call from Coming Week Widget for weather");
-        //console.log(res);
-        const dataArray = res.data.daily;
-        setUsingMockData(false);
-        let tempArr = [];
-        for (let index = 0; index < dataArray.length; index++) {
-          //console.log(dataArray[index]);
-          tempArr.push(dataArray[index]);
-        }
-        setWeatherArray(tempArr);
-        //setDataAvailable(true);
-      })
-      .catch((err) => {
-        console.log(err);
-        const dataArray = mock_weather.daily;
-        setUsingMockData(true);
-        let tempArr = [];
-        for (let index = 0; index < dataArray.length; index++) {
-          //console.log(dataArray[index]);
-          tempArr.push(dataArray[index]);
-        }
-        setWeatherArray(tempArr);
-      });
+    const fillInfo = (source) => {
+      const dataArray = source;
+      let tempArr = [];
+      for (let index = 0; index < dataArray.length; index++) {
+        tempArr.push(dataArray[index]);
+      }
+      setWeatherArray(tempArr);
 
-    fetchCurrentTime()
-      .then((res) => {
-        //console.log("/ API call from Coming Week Widget for Time");
-        //console.log(res);
-        setTimeAndDate(res.data);
-        setDataAvailable(true);
-      })
-      .catch((err) => {
-        console.log(err);
-        setTimeAndDate(mock_time);
-        setDataAvailable(true);
-      });
+      fetchCurrentTime()
+        .then((res) => {
+          setTimeAndDate(res.data);
+          setDataAvailable(true);
+        })
+        .catch((err) => {
+          console.log(err);
+          setTimeAndDate(mock_time);
+          setDataAvailable(true);
+        });
+    };
+
+    if (
+      sessionStorage.getItem("weather_coming_week") === null ||
+      TimeUtils.MinuteIsCurrent() == false
+    ) {
+      fetch8DaysWeather()
+        .then((res) => {
+          const fetchData = res.data.daily;
+          setUsingMockData(false);
+          sessionStorage.setItem(
+            "weather_coming_week",
+            JSON.stringify(res.data.daily)
+          );
+          fillInfo(JSON.parse(sessionStorage.getItem("weather_coming_week")));
+        })
+        .catch((err) => {
+          setUsingMockData(true);
+          fillInfo(mock_weather.daily);
+        });
+    } else {
+      setUsingMockData(false);
+      fillInfo(JSON.parse(sessionStorage.getItem("weather_coming_week")));
+    }
   }, []);
 
   return (
