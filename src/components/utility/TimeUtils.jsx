@@ -13,8 +13,22 @@ export function SetLastUpdate() {
     })
   );
 }
+
+export function GrabTime() {
+  if(sessionStorage.getItem("time") === null || MinuteIsCurrent === false) {
+    fetchCurrentTime()
+        .then((res) => {
+          return res
+        }).catch((err) => {
+          console.log(err);})
+  }
+  else {
+    return sessionStorage.getItem("time");
+  }
+}
+
 //check time function checks the time and returns false if the time does not match to the hour and true if it does
-export function MinuteIsCurrent(query) {
+export function MinuteIsCurrent() {
   let currentDt = new Date();
   const formatedDt = JSON.stringify({
     "day": currentDt.getDate(),

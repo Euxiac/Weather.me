@@ -146,17 +146,6 @@ function Widget_ComingWeek() {
         tempArr.push(dataArray[index]);
       }
       setWeatherArray(tempArr);
-
-      fetchCurrentTime()
-        .then((res) => {
-          setTimeAndDate(res.data);
-          setDataAvailable(true);
-        })
-        .catch((err) => {
-          console.log(err);
-          setTimeAndDate(mock_time);
-          setDataAvailable(true);
-        });
     };
 
     if (
@@ -172,14 +161,20 @@ function Widget_ComingWeek() {
             JSON.stringify(res.data.daily)
           );
           fillInfo(JSON.parse(sessionStorage.getItem("weather_coming_week")));
+          setTimeAndDate(JSON.parse(TimeUtils.GrabTime()).data);
+          setDataAvailable(true);
         })
         .catch((err) => {
           setUsingMockData(true);
           fillInfo(mock_weather.daily);
+          setTimeAndDate(mock_time);
+          setDataAvailable(true);
         });
     } else {
       setUsingMockData(false);
       fillInfo(JSON.parse(sessionStorage.getItem("weather_coming_week")));
+      setTimeAndDate(JSON.parse(TimeUtils.GrabTime()).data);
+      setDataAvailable(true);
     }
   }, []);
 
