@@ -13,6 +13,7 @@ import mock_time from "../../data/mock_time.json";
 import { UsingMockData_warning } from "../basic/Card_Alerts";
 import returnIcon from "../../Utilities/returnIcon";
 import * as TimeUtils from "../utility/TimeUtils";
+import Skeleton from "@mui/material/Skeleton";
 
 function Widget_ComingWeek() {
   const weatherEntry = (day, data, ukey) => {
@@ -133,7 +134,20 @@ function Widget_ComingWeek() {
         </Stack>
       );
     } else {
-      return <p>loading...</p>;
+      return (
+        <CardContent>
+        <Stack
+          id="Stack_ComingWeek"
+          direction="row"
+          spacing={2}
+          sx={{ overflow: "auto" }}
+        >
+          <Skeleton variant="rectangular" width={"30%"} height={300} />
+          <Skeleton variant="rectangular" width={"30%"} height={300} />
+          <Skeleton variant="rectangular" width={"30%"} height={300} />
+        </Stack>
+        </CardContent>
+      );
     }
   }
 
