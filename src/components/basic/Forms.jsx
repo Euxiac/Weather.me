@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
+import * as appConfig from "../../appConfig"
 
 import {
   Button,
@@ -19,7 +20,7 @@ import {
 //Form to change Name, stored in sessionStorage
 export const NameForm = (resetManager) => {
   const [name, setName] = useState(
-    sessionStorage.getItem("userName") ? sessionStorage.getItem("userName") : ""
+    appConfig.storageMode.getItem("userName") ? appConfig.storageMode.getItem("userName") : ""
   );
   const [greeting, setGreeting] = useState("Hello, "); // State for the greeting message
 
@@ -31,7 +32,7 @@ export const NameForm = (resetManager) => {
   // Handle form submit
   const handleSubmit = () => {
     if (name) {
-      sessionStorage.setItem("userName", name);
+      appConfig.storageMode.setItem("userName", name);
       resetManager.resetManager();
     }
   };
@@ -62,56 +63,56 @@ export const NameForm = (resetManager) => {
 //Form to change Location, stored in sessionStorage
 export const LocationForm = (resetManager) => {
   const [country, setCountry] = useState(
-    sessionStorage.getItem("userCountry")
-      ? sessionStorage.getItem("userCountry")
+    appConfig.storageMode.getItem("userCountry")
+      ? appConfig.storageMode.getItem("userCountry")
       : ""
   );
   const [state, setState] = useState(
-    sessionStorage.getItem("userState")
-      ? sessionStorage.getItem("userState")
+    appConfig.storageMode.getItem("userState")
+      ? appConfig.storageMode.getItem("userState")
       : ""
   );
   const [city, setCity] = useState(
-    sessionStorage.getItem("userCity") ? sessionStorage.getItem("userCity") : ""
+    appConfig.storageMode.getItem("userCity") ? appConfig.storageMode.getItem("userCity") : ""
   );
 
   const countries = [
     {
-      value: "0",
+      value: "Australia",
       label: "Australia",
     },
   ];
 
   const states = [
     {
-      value: "0",
+      value: "Western Australia",
       label: "Western Australia",
     },
     {
-      value: "1",
+      value: "Northern Territory",
       label: "Northern Territory",
     },
     {
-      value: "2",
+      value: "Victoria",
       label: "Victoria",
     },
   ];
 
   const cities = [
     {
-      value: "0",
+      value: "Perth",
       label: "Perth",
     },
     {
-      value: "1",
+      value: "Melbourne",
       label: "Melbourne",
     },
     {
-      value: "2",
+      value: "Sydney",
       label: "Sydney",
     },
     {
-      value: "3",
+      value: "Canberra",
       label: "Canberra",
     },
   ];
@@ -132,9 +133,9 @@ export const LocationForm = (resetManager) => {
   // Handle form submit
   const handleSubmit = () => {
     if (country && state && city) {
-      sessionStorage.setItem("userCountry", country);
-      sessionStorage.setItem("userState", state);
-      sessionStorage.setItem("userCity", city);
+      appConfig.storageMode.setItem("userCountry", country);
+      appConfig.storageMode.setItem("userState", state);
+      appConfig.storageMode.setItem("userCity", city);
       resetManager.resetManager();
     }
   };
@@ -212,7 +213,7 @@ export const LocationForm = (resetManager) => {
 //Form to change Units, stored in sessionStorage
 export const UnitForm = (resetWidget) => {
   const [unit, setUnit] = useState(
-    sessionStorage.getItem("unit") ? sessionStorage.getItem("unit") : ""
+    appConfig.storageMode.getItem("unit") ? appConfig.storageMode.getItem("unit") : ""
   );
 
   const units = [
@@ -234,7 +235,7 @@ export const UnitForm = (resetWidget) => {
   // Handle form submit
   const handleSubmit = () => {
     if (unit) {
-      sessionStorage.setItem("unit", unit);
+      appConfig.storageMode.setItem("unit", unit);
       resetWidget.resetWidget();
     }
   };

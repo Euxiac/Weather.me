@@ -7,6 +7,7 @@ import * as formComponents from "./forms";
 import { Mode } from "@mui/icons-material";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import CloseIcon from '@mui/icons-material/Close';
+import * as appConfig from "../../appConfig"
 
 //this manages the user details on the top of the page
 const UserManager = () => {
@@ -24,7 +25,7 @@ const UserManager = () => {
       widget: (
         <Box display="flex" justifyContent="center" alignItems="center">
           <Stack direction="row" spacing={1}>
-            <Typography variant="h4">Hello, {sessionStorage.getItem("userName")}</Typography>
+            <Typography variant="h4">Hello, {appConfig.storageMode.getItem("userName")}</Typography>
             <IconButton
               aria-label="HeaderEdit"
               size="small"
@@ -48,9 +49,9 @@ const UserManager = () => {
             divider={<Divider orientation="vertical" flexItem />}
             spacing={2}
           >
-            <Typography variant="caption">{sessionStorage.getItem('userCity')}</Typography>
-            <Typography variant="caption">{sessionStorage.getItem('userState')}</Typography>
-            <Typography variant="caption">{sessionStorage.getItem('userCountry')}</Typography>
+            <Typography variant="caption">{appConfig.storageMode.getItem('userCity')}</Typography>
+            <Typography variant="caption">{appConfig.storageMode.getItem('userState')}</Typography>
+            <Typography variant="caption">{appConfig.storageMode.getItem('userCountry')}</Typography>
           </Stack>
         </Box>
       ),

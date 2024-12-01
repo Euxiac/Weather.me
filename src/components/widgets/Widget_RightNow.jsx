@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
+import * as appConfig from "../../appConfig";
 
 // Material-UI imports
 import {
@@ -54,18 +55,18 @@ function Widget_RightNow() {
   // useEffect hook to handle data fetching or using mock data
   useEffect(() => {
     if (
-      sessionStorage.getItem("weather_current") === null ||
+      appConfig.storageMode.getItem("weather_current") === null ||
       TimeUtils.MinuteIsCurrent() === false
     ) {
       fetchCurrentWeather()
         .then((res) => {
           const fetchData = res.data.current;
-          sessionStorage.setItem(
+          appConfig.storageMode.setItem(
             "weather_current",
             JSON.stringify(res.data.current)
           );
           setUsingMockData(false);
-          fillInfo(JSON.parse(sessionStorage.getItem("weather_current")));
+          fillInfo(JSON.parse(appConfig.storageMode.getItem("weather_current")));
         })
         .catch((err) => {
           console.log(err);
@@ -73,7 +74,7 @@ function Widget_RightNow() {
           fillInfo(mock_weather.current);
         });
     } else {
-      const currData = JSON.parse(sessionStorage.getItem("weather_current"));
+      const currData = JSON.parse(appConfig.storageMode.getItem("weather_current"));
       setUsingMockData(false);
       fillInfo(currData);
     }

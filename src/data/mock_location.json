@@ -1,0 +1,38 @@
+{
+  "country": "Australia",
+  "code": "aus",
+  "states": [
+    {
+      "state": "australian capital territory",
+      "cities": [{ "city": "canberra" }, { "city": "dunlop" }]
+    },
+    {
+      "state": "new south wales",
+      "cities": [{ "city": "sydney" }, { "city": "wollongong" }]
+    },
+    {
+      "state": "northern territory",
+      "cities": [{ "city": "darwin" }, { "city": "alice springs" }]
+    },
+    {
+      "state": "queensland",
+      "cities": [{ "city": "brisbane" }, { "city": "gold coast" }]
+    },
+    {
+      "state": "south australia",
+      "cities": [{ "city": "adelaide" }, { "city": "port augusta" }]
+    },
+    {
+      "state": "tasmania",
+      "cities": [{ "city": "hobart" }, { "city": "devonport" }]
+    },
+    {
+      "state": "victoria",
+      "cities": [{ "city": "melbourne" }, { "city": "geelong" }]
+    },
+    {
+      "state": "western australia",
+      "cities": [{ "city": "perth" }, { "city": "bunbury" }]
+    }
+  ]
+}

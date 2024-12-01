@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
+import * as appConfig from "../../appConfig";
 
 // Material-UI imports
 import {
@@ -176,18 +177,18 @@ function Widget_ComingWeek() {
     };
 
     if (
-      sessionStorage.getItem("weather_coming_week") === null ||
+      appConfig.storageMode.getItem("weather_coming_week") === null ||
       TimeUtils.MinuteIsCurrent() === false
     ) {
       fetch8DaysWeather()
         .then((res) => {
           const fetchData = res.data.daily;
           setUsingMockData(false);
-          sessionStorage.setItem(
+          appConfig.storageMode.setItem(
             "weather_coming_week",
             JSON.stringify(res.data.daily)
           );
-          fillInfo(JSON.parse(sessionStorage.getItem("weather_coming_week")));
+          fillInfo(JSON.parse(appConfig.storageMode.getItem("weather_coming_week")));
           setTimeAndDate(JSON.parse(TimeUtils.GrabTime()).data);
           setDataAvailable(true);
         })
@@ -199,7 +200,7 @@ function Widget_ComingWeek() {
         });
     } else {
       setUsingMockData(false);
-      fillInfo(JSON.parse(sessionStorage.getItem("weather_coming_week")));
+      fillInfo(JSON.parse(appConfig.storageMode.getItem("weather_coming_week")));
       setTimeAndDate(JSON.parse(TimeUtils.GrabTime()).data);
       setDataAvailable(true);
     }

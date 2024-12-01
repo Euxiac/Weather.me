@@ -1,18 +1,17 @@
 import axios from "axios";
-
-const mockData = false;
+import * as appConfig from "../appConfig";
 
 // {} => destructuring, when you have an object and just want one thing out of that object
 const location = { lat: -31.9558933, lon: 115.8605855 };
 
 export const fetchCurrentWeather = async () => {
-  if (mockData) {
+  if (appConfig.useMockData) {
     throw new Error(
       `using mock data`
     );
   } else {
     try {
-      const apiUrl = `http://localhost:8000/api/fetch-weather/current/${location.lat},${location.lon}`;
+      const apiUrl = `${appConfig.APIAddress}/api/fetch-weather/current/${location.lat},${location.lon}`;
       const response = await axios.get(apiUrl, {
         headers: {
           "Content-Type": "application/json",
@@ -30,13 +29,13 @@ export const fetchCurrentWeather = async () => {
 };
 
 export const fetch8DaysWeather = async () => {
-  if (mockData) {
+  if (appConfig.useMockData) {
     throw new Error(
       `using mock data`
     );
   } else {
     try {
-      const apiUrl = `http://localhost:8000/api/fetch-weather/coming-week/${location.lat},${location.lon}`;
+      const apiUrl = `${appConfig.APIAddress}/api/fetch-weather/coming-week/${location.lat},${location.lon}`;
       const response = await axios.get(apiUrl, {
         headers: {
           "Content-Type": "application/json",
@@ -54,13 +53,13 @@ export const fetch8DaysWeather = async () => {
 };
 
 export const fetchCurrentTime = async () => {
-  if (mockData) {
+  if (appConfig.useMockData) {
     throw new Error(
       `using mock data`
     );
   } else {
     try {
-      const apiUrl = `http://localhost:8000/api/fetch-time/${location.lat},${location.lon}`;
+      const apiUrl = `${appConfig.APIAddress}/api/fetch-time/${location.lat},${location.lon}`;
       const response = await axios.get(apiUrl, {
         headers: {
           "Content-Type": "application/json",
@@ -76,3 +75,11 @@ export const fetchCurrentTime = async () => {
     }
   }
 };
+
+export const fetchCountries = async () => {
+  if (appConfig.useMockData) {
+    throw new Error(
+      `using mock data`
+    );
+  }
+}
