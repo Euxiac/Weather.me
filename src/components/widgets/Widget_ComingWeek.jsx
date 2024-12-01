@@ -1,21 +1,41 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import Stack from "@mui/material/Stack";
-import Box from "@mui/material/Box";
+// Material-UI imports
+import {
+  Card,
+  CardContent,
+  Typography,
+  Stack,
+  Box,
+  Skeleton,
+} from "@mui/material";
 
+// Services and utilities
 import { fetch8DaysWeather, fetchCurrentTime } from "../../services/apiService";
+import * as TimeUtils from "../../utilities/TimeUtils";
+import returnIcon from "../../utilities/returnIcon";
+
+// Mock Data
 import mock_weather from "../../data/mock_weather.json";
 import mock_time from "../../data/mock_time.json";
+
+// Components
 import { UsingMockData_warning } from "../basic/Card_Alerts";
-import returnIcon from "../../Utilities/returnIcon";
-import * as TimeUtils from "../utility/TimeUtils";
-import Skeleton from "@mui/material/Skeleton";
 
 function Widget_ComingWeek() {
+  // State variables
+  const [dataAvailable, setDataAvailable] = useState(false);
+  const [weatherArray, setWeatherArray] = useState("");
+  const [timeAndDate, setTimeAndDate] = useState("");
+  const [usingMockData, setUsingMockData] = useState(false);
+
+  // Days of the week mapping
+  const daysOfWeek = [
+    { 0: "Sun", 1: "Mon", 2: "Tue", 3: "Wed", 4: "Thu", 5: "Fri", 6: "Sat" },
+  ];
+
+  // Helper function to generate the weather card entry for each day
   const weatherEntry = (day, data, ukey) => {
     return (
       <Card key={ukey} sx={{ minWidth: 160 }}>
@@ -70,14 +90,7 @@ function Widget_ComingWeek() {
     );
   };
 
-  const [dataAvailable, setDataAvailable] = useState(false);
-  const [weatherArray, setWeatherArray] = useState("");
-  const [timeAndDate, setTimeAndDate] = useState("");
-  const daysOfWeek = [
-    { 0: "Sun", 1: "Mon", 2: "Tue", 3: "Wed", 4: "Thu", 5: "Fri", 6: "Sat" },
-  ];
-  const [usingMockData, setUsingMockData] = useState(false);
-
+  // Function to calculate the correct day based on the current day and days ahead
   const CalculateDays = (today, daysFromToday) => {
     let result;
     switch (today) {
@@ -113,8 +126,8 @@ function Widget_ComingWeek() {
     return result;
   };
 
+  // Function to populate the weather stack for the upcoming week
   function populateComingWeekStack() {
-    //console.log(`populate ${weatherArray[0]}`);
     if (dataAvailable) {
       return (
         <Stack
@@ -136,23 +149,23 @@ function Widget_ComingWeek() {
     } else {
       return (
         <CardContent>
-        <Stack
-          id="Stack_ComingWeek"
-          direction="row"
-          spacing={2}
-          sx={{ overflow: "auto" }}
-        >
-          <Skeleton variant="rectangular" width={"30%"} height={300} />
-          <Skeleton variant="rectangular" width={"30%"} height={300} />
-          <Skeleton variant="rectangular" width={"30%"} height={300} />
-        </Stack>
+          <Stack
+            id="Stack_ComingWeek"
+            direction="row"
+            spacing={2}
+            sx={{ overflow: "auto" }}
+          >
+            <Skeleton variant="rectangular" width={"30%"} height={300} />
+            <Skeleton variant="rectangular" width={"30%"} height={300} />
+            <Skeleton variant="rectangular" width={"30%"} height={300} />
+          </Stack>
         </CardContent>
       );
     }
   }
 
+  // useEffect hook to fetch the weather data and time information
   useEffect(() => {
-    //console.log("effect run on Coming Week");
     const fillInfo = (source) => {
       const dataArray = source;
       let tempArr = [];
@@ -164,7 +177,7 @@ function Widget_ComingWeek() {
 
     if (
       sessionStorage.getItem("weather_coming_week") === null ||
-      TimeUtils.MinuteIsCurrent() == false
+      TimeUtils.MinuteIsCurrent() === false
     ) {
       fetch8DaysWeather()
         .then((res) => {

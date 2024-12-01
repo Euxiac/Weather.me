@@ -1,20 +1,27 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
+// Material-UI imports
+import {
+  CardContent,
+  Typography,
+  Stack,
+  Box,
+  Skeleton,
+} from "@mui/material";
+import Grid from "@mui/material/Grid2";
 
+// Services and utilities
 import { fetchCurrentWeather } from "../../services/apiService";
+import * as TimeUtils from "../../utilities/TimeUtils";
+import returnIcon from "../../utilities/returnIcon";
+
+// Mock Data and Components
 import mock_weather from "../../data/mock_weather.json";
 import { UsingMockData_warning } from "../basic/Card_Alerts";
-import returnIcon from "../../Utilities/returnIcon";
-import Stack from "@mui/material/Stack";
-import Grid from "@mui/material/Grid2";
-import * as TimeUtils from "../utility/TimeUtils";
-import { Skeleton } from "@mui/material";
 
 function Widget_RightNow() {
+  // State variables
   const [dataAvailable, setDataAvailable] = useState(false);
   const [lastUpdate, setLastUpdate] = useState("");
   const [usingMockData, setUsingMockData] = useState(false);
@@ -28,27 +35,27 @@ function Widget_RightNow() {
     feels_like: "",
   });
 
-  useEffect(() => {
-    //this is reused to fill in the info depending on the source determined
-    const fillInfo = (source) => {
-      const currData = source;
-      const weatherData = currData.weather[0];
-      setCurrentWeather({
-        weather: weatherData.main,
-        desc: weatherData.description,
-        icon: weatherData.icon,
-      });
-      setCurrentTemperature({
-        temperature: currData.temp,
-        feels_like: currData.feels_like,
-      });
-      setDataAvailable(true);
-    };
+  // Function to fill data from source (API or mock)
+  const fillInfo = (source) => {
+    const currData = source;
+    const weatherData = currData.weather[0];
+    setCurrentWeather({
+      weather: weatherData.main,
+      desc: weatherData.description,
+      icon: weatherData.icon,
+    });
+    setCurrentTemperature({
+      temperature: currData.temp,
+      feels_like: currData.feels_like,
+    });
+    setDataAvailable(true);
+  };
 
-    //if no data or data is outdated, fetchCurrentWeather from API
+  // useEffect hook to handle data fetching or using mock data
+  useEffect(() => {
     if (
       sessionStorage.getItem("weather_current") === null ||
-      TimeUtils.MinuteIsCurrent() == false
+      TimeUtils.MinuteIsCurrent() === false
     ) {
       fetchCurrentWeather()
         .then((res) => {
@@ -57,7 +64,6 @@ function Widget_RightNow() {
             "weather_current",
             JSON.stringify(res.data.current)
           );
-
           setUsingMockData(false);
           fillInfo(JSON.parse(sessionStorage.getItem("weather_current")));
         })
@@ -68,12 +74,12 @@ function Widget_RightNow() {
         });
     } else {
       const currData = JSON.parse(sessionStorage.getItem("weather_current"));
-
       setUsingMockData(false);
-      fillInfo(JSON.parse(sessionStorage.getItem("weather_current")));
+      fillInfo(currData);
     }
   }, []);
 
+  // JSX Rendering
   return (
     <CardContent>
       {usingMockData ? <UsingMockData_warning /> : null}
@@ -107,9 +113,7 @@ function Widget_RightNow() {
                 alignItems="center"
                 spacing={0}
               >
-                <Typography variant="overline">
-                  {currentWeather.weather}
-                </Typography>
+                <Typography variant="overline">{currentWeather.weather}</Typography>
                 <Typography variant="h2">
                   {Math.round(currentTemperature.temperature)}°C
                 </Typography>

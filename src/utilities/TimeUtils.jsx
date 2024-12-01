@@ -1,4 +1,4 @@
-import { fetchCurrentTime } from "../../services/apiService";
+import { fetchCurrentTime } from "../services/apiService";
 
 export function SetLastUpdate() {
   const currentDt = new Date();
