@@ -10,6 +10,7 @@ import CardManager from "./components/basic/CardManager";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import UserManager from "./components/basic/UserManager";
+import * as appConfig from "./appConfig";
 
 const weatherMeTheme = createTheme({
   palette: {

@@ -7,11 +7,18 @@ import * as formComponents from "./forms";
 import { Mode } from "@mui/icons-material";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import CloseIcon from '@mui/icons-material/Close';
-import * as appConfig from "../../appConfig"
+import * as appConfig from "../../appConfig";
+import * as stringUtils from "../../utilities/StringUtils";
+import mock_location from "../../data/mock_location.json"
 
 //this manages the user details on the top of the page
 const UserManager = () => {
   const [mode, setMode] = useState("initial"); //mode of the widget, (initial, edit)
+  const dataLocation = appConfig.useMockData ? mock_location : "use api data here";
+  const userLocationData = appConfig.storageMode.getItem('userCountry');
+  const userCountryString = userLocationData ? dataLocation[userLocationData-1].country : null;
+  const userStateString = userLocationData ? dataLocation[userLocationData-1].states[appConfig.storageMode.getItem('userState')-1].state: null;
+  const userNameString = appConfig.storageMode.getItem("userName");
 
   //resets widget
   const resetManager = () => {
@@ -25,7 +32,8 @@ const UserManager = () => {
       widget: (
         <Box display="flex" justifyContent="center" alignItems="center">
           <Stack direction="row" spacing={1}>
-            <Typography variant="h4">Hello, {appConfig.storageMode.getItem("userName")}</Typography>
+            {userNameString? <Typography variant="h4">Hello, {stringUtils.capitalizeWords(appConfig.storageMode.getItem("userName"))}</Typography> :
+            <Typography variant="h4">Let's get started!</Typography>}
             <IconButton
               aria-label="HeaderEdit"
               size="small"
@@ -43,16 +51,17 @@ const UserManager = () => {
       name: "User Location",
       widget: (
         <Box display="flex" justifyContent="center" alignItems="center">
+          {userLocationData ?
           <Stack
             id="stack_location"
             direction="row"
             divider={<Divider orientation="vertical" flexItem />}
             spacing={2}
           >
-            <Typography variant="caption">{appConfig.storageMode.getItem('userCity')}</Typography>
-            <Typography variant="caption">{appConfig.storageMode.getItem('userState')}</Typography>
-            <Typography variant="caption">{appConfig.storageMode.getItem('userCountry')}</Typography>
-          </Stack>
+            <Typography variant="caption">{stringUtils.capitalizeWords(appConfig.storageMode.getItem('userCity'))}</Typography>
+            <Typography variant="caption">{stringUtils.capitalizeWords(userStateString)}</Typography>
+            <Typography variant="caption">{stringUtils.capitalizeWords(userCountryString)}</Typography>
+          </Stack> : <Typography variant="caption">please set your location</Typography> }
         </Box>
       ),
       forms: [{ id: 0, form: <formComponents.LocationForm resetManager={resetManager}/> }],
@@ -66,7 +75,7 @@ const UserManager = () => {
       return (
         <>
           {headerWidgets[0].widget}
-          {headerWidgets[1].widget}
+          {userNameString ? headerWidgets[1].widget:null}
         </>
       );
     } else {
@@ -94,7 +103,7 @@ const UserManager = () => {
           </Stack>
 
           {headerWidgets[0].forms[0].form}
-          {headerWidgets[1].forms[0].form}
+          {userNameString ? headerWidgets[1].forms[0].form : null}
         </>
       );
     }

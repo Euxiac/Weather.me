@@ -1,6 +1,8 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import * as appConfig from "../../appConfig"
+import * as appConfig from "../../appConfig";
+import mock_location from "../../data/mock_location.json";
+import * as stringUtils from "../../utilities/StringUtils";
 
 import {
   Button,
@@ -20,7 +22,9 @@ import {
 //Form to change Name, stored in sessionStorage
 export const NameForm = (resetManager) => {
   const [name, setName] = useState(
-    appConfig.storageMode.getItem("userName") ? appConfig.storageMode.getItem("userName") : ""
+    appConfig.storageMode.getItem("userName")
+      ? appConfig.storageMode.getItem("userName")
+      : ""
   );
   const [greeting, setGreeting] = useState("Hello, "); // State for the greeting message
 
@@ -54,7 +58,7 @@ export const NameForm = (resetManager) => {
         onClick={handleSubmit}
         //updateUserName(false);
       >
-        Change Name
+        Save Name
       </Button>
     </Stack>
   );
@@ -62,6 +66,7 @@ export const NameForm = (resetManager) => {
 
 //Form to change Location, stored in sessionStorage
 export const LocationForm = (resetManager) => {
+
   const [country, setCountry] = useState(
     appConfig.storageMode.getItem("userCountry")
       ? appConfig.storageMode.getItem("userCountry")
@@ -73,53 +78,23 @@ export const LocationForm = (resetManager) => {
       : ""
   );
   const [city, setCity] = useState(
-    appConfig.storageMode.getItem("userCity") ? appConfig.storageMode.getItem("userCity") : ""
+    appConfig.storageMode.getItem("userCity")
+      ? appConfig.storageMode.getItem("userCity")
+      : ""
   );
 
-  const countries = [
-    {
-      value: "Australia",
-      label: "Australia",
-    },
-  ];
+    //this is where they will get the information from
+    const countries = appConfig.useMockData? mock_location: "call api here";
+    const states = country ? countries[country - 1].states : null;
+    const cities = state ? states[state - 1].cities : null;
 
-  const states = [
-    {
-      value: "Western Australia",
-      label: "Western Australia",
-    },
-    {
-      value: "Northern Territory",
-      label: "Northern Territory",
-    },
-    {
-      value: "Victoria",
-      label: "Victoria",
-    },
-  ];
-
-  const cities = [
-    {
-      value: "Perth",
-      label: "Perth",
-    },
-    {
-      value: "Melbourne",
-      label: "Melbourne",
-    },
-    {
-      value: "Sydney",
-      label: "Sydney",
-    },
-    {
-      value: "Canberra",
-      label: "Canberra",
-    },
-  ];
 
   // Handle input change
   const handleInputChangeCountry = (event) => {
     setCountry(event.target.value);
+    console.log(event.target.value);
+    console.log(event.target);
+    console.log(event);
   };
 
   const handleInputChangeState = (event) => {
@@ -155,65 +130,70 @@ export const LocationForm = (resetManager) => {
         helperText="Limited countries are currently supported"
       >
         {countries.map((option) => (
-          <MenuItem key={option.value} value={option.value}>
-            {option.label}
+          <MenuItem key={option.id} value={option.id}>
+            {option.country}
           </MenuItem>
         ))}
       </TextField>
 
       <Stack direction="row" spacing={2}>
-        <TextField
-          select
-          label="Select State"
-          variant="outlined"
-          value={state}
-          onChange={handleInputChangeState}
-          margin="normal"
-          autoCapitalize="words"
-          helperText="Please select your state"
-          sx={{ width: "50%" }}
-        >
-          {states.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
+        {states ? (
+          <TextField
+            select
+            label="Select State"
+            variant="outlined"
+            value={state}
+            onChange={handleInputChangeState}
+            margin="normal"
+            autoCapitalize="words"
+            helperText="Please select your state"
+            sx={{ width: "50%" }}
+          >
+            {states.map((option) => (
+              <MenuItem key={option.id} value={option.id}>
+                {stringUtils.capitalizeWords(option.state)}
+              </MenuItem>
+            ))}
+          </TextField>
+        ) : null}
 
-        <TextField
-          select
-          label="Select City"
-          variant="outlined"
-          value={city}
-          onChange={handleInputChangeCity}
-          margin="normal"
-          autoCapitalize="words"
-          helperText="Please select your city"
-          sx={{ width: "50%" }}
-        >
-          {cities.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
+        {cities ? (
+          <TextField
+            select
+            label="Select City"
+            variant="outlined"
+            value={city}
+            onChange={handleInputChangeCity}
+            margin="normal"
+            autoCapitalize="words"
+            helperText="Please select your city"
+            sx={{ width: "50%" }}
+          >
+            {cities.map((option) => (
+              <MenuItem key={option.city} value={option.city}>
+                {stringUtils.capitalizeWords(option.city)}
+              </MenuItem>
+            ))}
+          </TextField>
+        ) : null}
       </Stack>
       <Button
         variant="outlined"
         onClick={handleSubmit}
         //updateUserName(false);
       >
-        Change Name
+        Save Location
       </Button>
     </Stack>
   );
 };
 
-
 //Form to change Units, stored in sessionStorage
 export const UnitForm = (resetWidget) => {
   const [unit, setUnit] = useState(
-    appConfig.storageMode.getItem("unit") ? appConfig.storageMode.getItem("unit") : ""
+    appConfig.storageMode.getItem("unit")
+      ? appConfig.storageMode.getItem("unit")
+      : ""
   );
 
   const units = [
@@ -269,6 +249,5 @@ export const UnitForm = (resetWidget) => {
     </Stack>
   );
 };
-
 
 export default NameForm;

@@ -1,7 +1,7 @@
 //This is the global config file for the front end
 
 //toggle to use mock data or call data from the api
-export const useMockData = false; //true or false
+export const useMockData = true; //true or false
 
 //toggle to store data in session or local storage NOT IMPLEMENTED
 export const storageMode = sessionStorage; //SessionStorage or LocalStorage
