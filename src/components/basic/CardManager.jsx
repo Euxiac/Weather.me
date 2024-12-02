@@ -18,6 +18,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import TodayIcon from "@mui/icons-material/Today";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import PetsIcon from "@mui/icons-material/Pets";
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import { v4 as uuidv4 } from "uuid"; // For generating unique IDs
 
 // Widget components import
@@ -26,6 +27,7 @@ import Widget_ComingWeek from "../widgets/Widget_ComingWeek";
 import Widget_Duck from "../widgets/Widget_Duck";
 import WidgetCard from "./WidgetCard"; // WidgetCard component
 import * as formComponents from "./forms";
+import Widget_TicTacToe from "../widgets/Widget_Game";
 
 //this manages the widget cards
 const CardManager = () => {
@@ -64,6 +66,13 @@ const CardManager = () => {
       icon: <PetsIcon />,
       background: true,
       widget: <Widget_Duck />,
+      forms: [],
+    },
+    {
+      name: "Game",
+      icon: <SportsEsportsIcon />,
+      background: true,
+      widget: <Widget_TicTacToe />,
       forms: [],
     },
   ];
