@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { Container } from "@mui/material";
 import Stack from "@mui/material/Stack";
@@ -36,6 +36,13 @@ const weatherMeTheme = createTheme({
 });
 
 const WeatherMeApp = () => {
+  const [locationName, setLocationName] = useState(0);
+
+  const callBack = (city) => {
+    console.log("check call app");
+    setLocationName(city);
+  };
+
   useEffect(() => {
     async function fetchData() {
     await apiService.getAuth();
@@ -67,7 +74,7 @@ const WeatherMeApp = () => {
         <Container maxWidth="sm" elevation={0}>
           <Box>
             <Stack id="stackOfStacks" direction="column" spacing={6}>
-              <UserManager />
+              <UserManager callBack={callBack} />
               <CardManager />
             </Stack>
           </Box>

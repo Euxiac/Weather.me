@@ -66,7 +66,7 @@ export const NameForm = (resetManager) => {
 };
 
 //Form to change Location, stored in sessionStorage
-export const LocationForm = (resetManager) => {
+export const LocationForm = (props) => {
 
   const [country, setCountry] = useState(
     appConfig.storageMode.getItem("userCountry")
@@ -113,8 +113,11 @@ export const LocationForm = (resetManager) => {
       const stateName = countries[country-1].states[state-1].state;
       const coords = appConfig.useMockData? mock_coordinates : await fetchCoordinates(countryCode, stateName, city);
       appConfig.storageMode.setItem('userCoordinates', JSON.stringify(coords));
-      console.log(JSON.parse(appConfig.storageMode.getItem('userCoordinates')));
-      resetManager.resetManager();
+      //console.log(JSON.parse(appConfig.storageMode.getItem('userCoordinates')));
+      appConfig.storageMode.removeItem("time");
+      //console.log(appConfig.storageMode.getItem("time"));
+      props.resetManager();
+      props.callBack(city);
     }
   };
 

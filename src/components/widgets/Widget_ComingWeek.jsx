@@ -166,8 +166,8 @@ function Widget_ComingWeek() {
     }
   }
 
-  // useEffect hook to fetch the weather data and time information
-  useEffect(() => {
+  const grabTime= async(mock, filldata) => {
+    const time = await TimeUtils.GrabTime();
     const fillInfo = (source) => {
       const dataArray = source;
       let tempArr = [];
@@ -177,6 +177,20 @@ function Widget_ComingWeek() {
       setWeatherArray(tempArr);
     };
 
+    fillInfo(
+      filldata
+    );
+    setUsingMockData(mock);
+    
+    setTimeAndDate(time.data);
+    //console.log(JSON.parse(time).data);
+    
+    setDataAvailable(true);
+  }
+
+  // useEffect hook to fetch the weather data and time information
+  useEffect(() => {
+
     if (
       appConfig.storageMode.getItem("weather_coming_week") === null ||
       TimeUtils.MinuteIsCurrent() === false
@@ -184,26 +198,24 @@ function Widget_ComingWeek() {
       fetch8DaysWeather()
         .then((res) => {
           const fetchData = res.data.daily;
-          setUsingMockData(false);
           appConfig.storageMode.setItem(
             "weather_coming_week",
             JSON.stringify(res.data.daily)
           );
-          fillInfo(JSON.parse(appConfig.storageMode.getItem("weather_coming_week")));
-          setTimeAndDate(JSON.parse(TimeUtils.GrabTime()).data);
-          setDataAvailable(true);
+          grabTime(false, JSON.parse(appConfig.storageMode.getItem("weather_coming_week")));
         })
         .catch((err) => {
-          setUsingMockData(true);
-          fillInfo(mock_weather.daily);
-          setTimeAndDate(mock_time);
-          setDataAvailable(true);
+          console.log(err);
+          //setUsingMockData(true);
+          //fillInfo(mock_weather.daily);
+          grabTime(true, mock_weather.daily);
         });
     } else {
-      setUsingMockData(false);
-      fillInfo(JSON.parse(appConfig.storageMode.getItem("weather_coming_week")));
-      setTimeAndDate(JSON.parse(TimeUtils.GrabTime()).data);
-      setDataAvailable(true);
+      //setUsingMockData(false);
+      //fillInfo(
+      //  JSON.parse(appConfig.storageMode.getItem("weather_coming_week"))
+      //);
+      grabTime(false,JSON.parse(appConfig.storageMode.getItem("weather_coming_week")))
     }
   }, []);
 

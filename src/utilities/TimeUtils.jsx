@@ -14,16 +14,20 @@ export function SetLastUpdate() {
   );
 }
 
-export function GrabTime() {
+export async function GrabTime() {
   if(sessionStorage.getItem("time") === null || MinuteIsCurrent === false) {
-    fetchCurrentTime()
+    let ret = null;
+    await fetchCurrentTime()
         .then((res) => {
-          return res
+          //console.log(res);
+          //return res
+          ret=res;
         }).catch((err) => {
           console.log(err);})
+    return ret;
   }
   else {
-    return sessionStorage.getItem("time");
+    return JSON.parse(sessionStorage.getItem("time"));
   }
 }
 

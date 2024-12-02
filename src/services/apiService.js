@@ -5,8 +5,6 @@ import mock_coordinates from "../data/mock_coordinates.json"
 // {} => destructuring, when you have an object and just want one thing out of that object
 let location = JSON.parse(appConfig.storageMode.getItem('userCoordinates'));
 
-const TOKEN = appConfig.storageMode.getItem("user_token");
-
 function handleTokenTimeout(callback) {}
 
 async function handleError(error, callback) {
@@ -37,7 +35,7 @@ export const fetchCurrentWeather = async () => {
       const apiUrl = `${appConfig.APIAddress}/api/fetch-weather/current/${location.lat},${location.lon}`;
       const response = await axios.get(apiUrl, {
         headers: {
-          "Authorization": `Bearer ${TOKEN}`,
+          "Authorization": `Bearer ${appConfig.storageMode.getItem("user_token")}`,
           "Content-Type": "application/json",
         },
       });
@@ -58,7 +56,7 @@ export const fetch8DaysWeather = async () => {
       const apiUrl = `${appConfig.APIAddress}/api/fetch-weather/coming-week/${location.lat},${location.lon}`;
       const response = await axios.get(apiUrl, {
         headers: {
-          "Authorization": `Bearer ${TOKEN}`,
+          "Authorization": `Bearer ${appConfig.storageMode.getItem("user_token")}`,
           "Content-Type": "application/json",
         },
       });
@@ -79,7 +77,7 @@ export const fetchCurrentTime = async () => {
       const apiUrl = `${appConfig.APIAddress}/api/fetch-time/${location.lat},${location.lon}`;
       const response = await axios.get(apiUrl, {
         headers: {
-          "Authorization": `Bearer ${TOKEN}`,
+          "Authorization": `Bearer ${appConfig.storageMode.getItem("user_token")}`,
           "Content-Type": "application/json",
         },
       });
@@ -107,7 +105,7 @@ export const fetchLocationData = async () => {
       const apiUrl = `${appConfig.APIAddress}/location/data`;
       const response = await axios.get(apiUrl, {
         headers: {
-          "Authorization": `Bearer ${TOKEN}`,
+          "Authorization": `Bearer ${appConfig.storageMode.getItem("user_token")}`,
           "Content-Type": "application/json",
         },
       });
@@ -127,14 +125,14 @@ export const fetchCoordinates = async (country, state, city) => {
     const apiUrl = `${appConfig.APIAddress}/location/query/${country}/${state}/${city}`;
     const response = await axios.get(apiUrl, {
       headers: {
-        "Authorization": `Bearer ${TOKEN}`,
+        "Authorization": `Bearer ${appConfig.storageMode.getItem("user_token")}`,
         "Content-Type": "application/json",
       },
     });
     console.log("fetchin coordinates")
     const rawData = response.data.data[0];
     const formattedData = {"lat": rawData.lat, "lon": rawData.lon}
-    console.log(formattedData)
+    //console.log(formattedData)
 
     //sconsole.log(formattedData);
     return formattedData;
@@ -146,13 +144,15 @@ export const fetchCoordinates = async (country, state, city) => {
 
 export const getAuth = async () => {
   try {
-    //console.log("start");
+    //console.log("auth");
     const apiUrl = `${appConfig.APIAddress}/auth/get`;
     const response = await axios.get(apiUrl, {});
     //console.log("fetching new auth");
     appConfig.storageMode.setItem("user_token", response.data);
-    //console.log(TOKEN);
+    //console.log(response.data);
   } catch (error) {
+    //console.log("bam");
+    //console.log(error);
     return await handleError(error, getAuth);
   }
 };
@@ -165,7 +165,7 @@ export const convertCountryName = async (targetFormat, query) => {
     const apiUrl = `${appConfig.APIAddress}/location/convert/${targetFormat}/${query}`;
     const response = await axios.get(apiUrl, {
       headers: {
-        "Authorization": `Bearer ${TOKEN}`,
+        "Authorization": `Bearer ${appConfig.storageMode.getItem("user_token")}`,
         "Content-Type": "application/json",
       },
     });

@@ -12,13 +12,18 @@ import * as DataUtils from "../../utilities/DataUtils";
 import mock_location from "../../data/mock_location.json"
 
 //this manages the user details on the top of the page
-const UserManager = () => {
+const UserManager = (props) => {
   const [mode, setMode] = useState("initial"); //mode of the widget, (initial, edit)
   const dataLocation = appConfig.useMockData ? mock_location : JSON.parse(appConfig.storageMode.getItem('location_data'));
   const userLocationData = appConfig.storageMode.getItem('userCountry');
   const userCountryString = userLocationData ? dataLocation[userLocationData-1].country : null;
   const userStateString = userLocationData ? dataLocation[userLocationData-1].states[appConfig.storageMode.getItem('userState')-1].state: null;
   const userNameString = appConfig.storageMode.getItem("userName");
+
+  const callBack = (city) => {
+    //console.log("check call");
+    props.callBack(city);
+  }
 
   //resets widget
   const resetManager = () => {
@@ -64,7 +69,7 @@ const UserManager = () => {
           </Stack> : <Typography variant="caption">please set your location</Typography> }
         </Box>
       ),
-      forms: [{ id: 0, form: <formComponents.LocationForm resetManager={resetManager}/> }],
+      forms: [{ id: 0, form: <formComponents.LocationForm callBack={callBack} resetManager={resetManager}/> }],
     },
   ];
 

@@ -38,7 +38,7 @@ function Widget_RightNow() {
 
   // Function to fill data from source (API or mock)
   const fillInfo = (source) => {
-    console.log("filling right now info");
+    //console.log("filling right now info");
     const currData = source;
     const weatherData = currData.weather[0];
     setCurrentWeather({
