@@ -36,12 +36,12 @@ const Widget_Game = () => {
 
     if (userGuess === targetNumber) {
       setMessage(
-        `Correct! You guessed the number in ${attempts + 1} attempts.`
+        `Correct! You guessed the of ducks in ${attempts + 1} attempts.`
       );
     } else if (userGuess < targetNumber) {
-      setMessage("Too low! Try again.");
+      setMessage("Not enough ducks! Try again.");
     } else {
-      setMessage("Too high! Try again.");
+      setMessage("Too many ducks! Try again.");
     }
   };
 
