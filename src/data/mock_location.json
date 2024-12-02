@@ -7,42 +7,42 @@
       {
         "id":"1",
         "state": "australian capital territory",
-        "cities": [{ "city": "canberra" }, { "city": "dunlop" }]
+        "cities": [{ "id": 1, "city": "canberra" }, { "id": 2,"city": "dunlop" }]
       },
       {
         "id":"2",
         "state": "new south wales",
-        "cities": [{ "city": "sydney" }, { "city": "wollongong" }]
+        "cities": [{ "id": 1,"city": "sydney" }, { "id": 2, "city": "wollongong" }]
       },
       {
         "id":"3",
         "state": "northern territory",
-        "cities": [{ "city": "darwin" }, { "city": "alice springs" }]
+        "cities": [{ "id": 1,"city": "darwin" }, { "id": 2, "city": "alice springs" }]
       },
       {
         "id":"4",
         "state": "queensland",
-        "cities": [{ "city": "brisbane" }, { "city": "gold coast" }]
+        "cities": [{ "id": 1,"city": "brisbane" }, { "id": 2, "city": "gold coast" }]
       },
       {
         "id":"5",
         "state": "south australia",
-        "cities": [{ "city": "adelaide" }, { "city": "port augusta" }]
+        "cities": [{ "id": 1,"city": "adelaide" }, { "id": 2, "city": "port augusta" }]
       },
       {
         "id":"6",
         "state": "tasmania",
-        "cities": [{ "city": "hobart" }, { "city": "devonport" }]
+        "cities": [{ "id": 1,"city": "hobart" }, { "id": 2, "city": "devonport" }]
       },
       {
         "id":"7",
         "state": "victoria",
-        "cities": [{ "city": "melbourne" }, { "city": "geelong" }]
+        "cities": [{ "id": 1,"city": "melbourne" }, { "id": 2, "city": "geelong" }]
       },
       {
         "id":"8",
         "state": "western australia",
-        "cities": [{ "city": "perth" }, { "city": "bunbury" }]
+        "cities": [{ "id": 1,"city": "perth" }, { "id": 2, "city": "bunbury" }]
       }
     ]
   },
@@ -54,12 +54,12 @@
       {
         "id":"1",
         "state": "flatside",
-        "cities": [{ "city": "nose" }, { "city": "bhutt" }]
+        "cities": [{ "id": 1,"city": "nose" }, { "id": 2,"city": "bhutt" }]
       },
       {
         "id":"2",
         "state": "handleside",
-        "cities": [{ "city": "handle bar" }, { "city": "back" }]
+        "cities": [{ "id": 1,"city": "handle bar" }, { "id": 2, "city": "back" }]
       }
     ]
   }

@@ -84,7 +84,7 @@ export const LocationForm = (resetManager) => {
   );
 
     //this is where they will get the information from
-    const countries = appConfig.useMockData? mock_location: "call api here";
+    const countries = appConfig.useMockData? mock_location: JSON.parse(appConfig.storageMode.getItem('location_data'));
     const states = country ? countries[country - 1].states : null;
     const cities = state ? states[state - 1].cities : null;
 
@@ -131,7 +131,7 @@ export const LocationForm = (resetManager) => {
       >
         {countries.map((option) => (
           <MenuItem key={option.id} value={option.id}>
-            {option.country}
+            {stringUtils.capitalizeWords(option.country)}
           </MenuItem>
         ))}
       </TextField>
@@ -170,7 +170,7 @@ export const LocationForm = (resetManager) => {
             sx={{ width: "50%" }}
           >
             {cities.map((option) => (
-              <MenuItem key={option.city} value={option.city}>
+              <MenuItem key={option.id} value={option.city}>
                 {stringUtils.capitalizeWords(option.city)}
               </MenuItem>
             ))}

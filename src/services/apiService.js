@@ -83,3 +83,26 @@ export const fetchCountries = async () => {
     );
   }
 }
+
+export const fetchLocationData = async () => {
+  if (appConfig.useMockData) {
+    throw new Error(
+      `using mock data`
+    );
+  } else {
+    try {
+      const apiUrl = `${appConfig.APIAddress}/location/data`;
+      const response = await axios.get(apiUrl, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log("fetching new location data");
+      return response.data; // The actual data returned by the API
+    } catch (error) {
+      throw new Error(
+        `Error fetching location data: ${error.message}`
+      );
+    }
+  }
+};

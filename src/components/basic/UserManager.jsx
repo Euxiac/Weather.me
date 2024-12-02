@@ -14,7 +14,7 @@ import mock_location from "../../data/mock_location.json"
 //this manages the user details on the top of the page
 const UserManager = () => {
   const [mode, setMode] = useState("initial"); //mode of the widget, (initial, edit)
-  const dataLocation = appConfig.useMockData ? mock_location : "use api data here";
+  const dataLocation = appConfig.useMockData ? mock_location : JSON.parse(appConfig.storageMode.getItem('location_data'));
   const userLocationData = appConfig.storageMode.getItem('userCountry');
   const userCountryString = userLocationData ? dataLocation[userLocationData-1].country : null;
   const userStateString = userLocationData ? dataLocation[userLocationData-1].states[appConfig.storageMode.getItem('userState')-1].state: null;

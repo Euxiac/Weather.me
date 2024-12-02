@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useEffect } from "react";
 
 import { Container } from "@mui/material";
 import Stack from "@mui/material/Stack";
@@ -11,6 +12,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import UserManager from "./components/basic/UserManager";
 import * as appConfig from "./appConfig";
+import * as apiService from "./services/apiService"
 
 const weatherMeTheme = createTheme({
   palette: {
@@ -34,6 +36,25 @@ const weatherMeTheme = createTheme({
 });
 
 const WeatherMeApp = () => {
+  useEffect(() => {
+    if (
+      appConfig.storageMode.getItem("location_data") === null
+    ) {
+      apiService.fetchLocationData()
+        .then((res) => {
+          const fetchData = res.countryData;
+          appConfig.storageMode.setItem(
+            "location_data",
+            JSON.stringify(res.countryData)
+          );
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, []);
+  console.log(JSON.parse(appConfig.storageMode.getItem("location_data")));
+
   return (
     <ThemeProvider theme={weatherMeTheme}>
       <CssBaseline />
