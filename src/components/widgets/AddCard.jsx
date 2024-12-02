@@ -9,6 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Container from "@mui/material/Container";
 
+//widget to add a new card
 function AddCard() {
   return (
     <Card variant="outlined" elevation={0} sx={{ minWidth: '275', border:'1px dashed rgba(0, 0, 0, 0.12)', background:"rgba(0, 0, 0, 0.1)"}}>

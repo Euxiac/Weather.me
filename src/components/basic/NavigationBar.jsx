@@ -1,10 +1,10 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import LogoIcon from '../icons/LogoIcon';
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import LogoIcon from "../icons/LogoIcon";
 
 export default function NavigationBar() {
   return (
@@ -18,7 +18,7 @@ export default function NavigationBar() {
             aria-label="menu"
             sx={{ mr: 2 }}
           >
-            <LogoIcon/>
+            <LogoIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Weather.me

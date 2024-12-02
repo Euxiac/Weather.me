@@ -24,6 +24,7 @@ import mock_time from "../../data/mock_time.json";
 // Components
 import { UsingMockData_warning } from "../basic/Card_Alerts";
 
+//Coming week widget shows a forecast of the next 8 days from the current day
 function Widget_ComingWeek() {
   // State variables
   const [dataAvailable, setDataAvailable] = useState(false);

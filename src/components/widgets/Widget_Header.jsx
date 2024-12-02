@@ -1,41 +1,122 @@
-import * as React from "react";
-import { useState, useEffect } from "react";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
+import React, { useState } from "react";
+import {
+  Stack,
+  Typography,
+  IconButton,
+  Box,
+  Divider,
+  TextField,
+  Button,
+  MenuItem,
+} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import IconButton from "@mui/material/IconButton";
-import Box from "@mui/material/Box";
-import Divider from "@mui/material/Divider";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
 import CloseIcon from "@mui/icons-material/Close";
-import MenuItem from "@mui/material/MenuItem";
-import { useFormControl } from '@mui/material/FormControl';
+
+// LocationSelect - a reusable component for rendering dropdowns
+const LocationSelect = ({ label, value, options, onChange }) => (
+  <TextField
+    select
+    label={label}
+    value={value}
+    onChange={onChange}
+    helperText={`Please select your ${label.toLowerCase()}`}
+    fullWidth
+  >
+    {options.map((option) => (
+      <MenuItem key={option.value} value={option.value}>
+        {option.label}
+      </MenuItem>
+    ))}
+  </TextField>
+);
+
+// NameHeader - Handles the name input and display logic
+const NameHeader = ({ name, onEdit, onClose }) => (
+  <Stack direction="column" spacing={2} sx={{ pt: "48px" }}>
+    <Box>
+      <IconButton aria-label="Edit" size="small" onClick={onClose}>
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </Box>
+    <Stack direction="column" spacing={2}>
+      <Typography variant="h5">What's your name?</Typography>
+      <TextField required defaultValue={name} />
+    </Stack>
+  </Stack>
+);
+
+// LocationHeader - Handles the location input and display logic
+const LocationHeader = ({ editState, setEditState }) => {
+  const countries = [{ value: "0", label: "Australia" }];
+  const states = [
+    { value: "0", label: "Western Australia" },
+    { value: "1", label: "Northern Territory" },
+    { value: "2", label: "Victoria" },
+  ];
+  const cities = [
+    { value: "0", label: "Perth" },
+    { value: "1", label: "Melbourne" },
+    { value: "2", label: "Sydney" },
+    { value: "3", label: "Canberra" },
+  ];
+
+  const [country, setCountry] = useState("0");
+  const [state, setState] = useState("0");
+  const [city, setCity] = useState("0");
+
+  const handleSubmit = () => {
+    // Handle submit logic (you can store the data, etc.)
+    setEditState(false);
+  };
+
+  return editState ? (
+    <Stack direction="column" spacing={3}>
+      <Typography variant="h5">Where are you located?</Typography>
+      <LocationSelect
+        label="Country"
+        value={country}
+        options={countries}
+        onChange={(e) => setCountry(e.target.value)}
+      />
+      <Stack direction="row" spacing={2}>
+        <LocationSelect
+          label="State"
+          value={state}
+          options={states}
+          onChange={(e) => setState(e.target.value)}
+        />
+        <LocationSelect
+          label="City"
+          value={city}
+          options={cities}
+          onChange={(e) => setCity(e.target.value)}
+        />
+      </Stack>
+      <Button variant="outlined" onClick={handleSubmit}>
+        Submit
+      </Button>
+    </Stack>
+  ) : (
+    <Box display="flex" justifyContent="center" alignItems="center">
+      <Stack
+        direction="row"
+        divider={<Divider orientation="vertical" flexItem />}
+        spacing={2}
+      >
+        <Typography variant="caption">Perth</Typography>
+        <Typography variant="caption">WA</Typography>
+        <Typography variant="caption">Australia</Typography>
+      </Stack>
+    </Box>
+  );
+};
 
 function Widget_Header() {
   const [name, setName] = useState("Luke");
   const [editState, setEditState] = useState(false);
 
-  const Header_name = () => {
-    return editState ? (
-      <Stack direction="column" spacing={2} sx={{ pt: "48px" }}>
-        <Box>
-          <IconButton
-            aria-label="Edit"
-            size="small"
-            onClick={() => {
-              setEditState(false);
-            }}
-          >
-            <CloseIcon fontSize="small" />
-          </IconButton>
-        </Box>
-        <Stack direction="column" spacing={2}>
-          <Typography variant="h5">What's your name?</Typography>
-          <TextField required id="outlined" defaultValue="Luke" />
-        </Stack>
-      </Stack>
-    ) : (
+  return (
+    <Stack id="header_WidgetStack" direction="column" spacing={2}>
       <Box
         display="flex"
         justifyContent="center"
@@ -47,135 +128,22 @@ function Widget_Header() {
           <IconButton
             aria-label="Edit"
             size="small"
-            onClick={() => {
-              setEditState(true);
-            }}
+            onClick={() => setEditState(true)}
           >
             <EditIcon fontSize="small" />
           </IconButton>
         </Stack>
       </Box>
-    );
-  };
 
-  const Header_location = () => {
-    const countries = [
-      {
-        value: "0",
-        label: "Australia",
-      }
-    ];
-
-    const states = [
-      {
-        value: "0",
-        label: "Western Australia",
-      },
-      {
-        value: "1",
-        label: "Northern Territory",
-      },
-      {
-        value: "2",
-        label: "Victoria",
-      }
-    ];
-
-    const cities = [
-      {
-        value: "0",
-        label: "Perth",
-      },
-      {
-        value: "1",
-        label: "Melbourne",
-      },
-      {
-        value: "2",
-        label: "Sydney",
-      },
-      {
-        value: "3",
-        label: "Canberra",
-      },
-    ];
-    return editState ? (
-      <Stack direction="column" spacing={3}>
-        <Typography variant="h5">Where are you located?</Typography>
-        <TextField
-          id="outlined-select-country"
-          select
-          label="Select Country"
-          defaultValue="0"
-          helperText="Please select your country"
-        >
-          {countries.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
-
-        <Stack direction="row" spacing={2}>
-        <TextField
-          id="outlined-select-state"
-          select
-          label="Select State"
-          defaultValue="0"
-          helperText="Please select your state"
-          sx ={{width:"50%"}}
-        >
-          {states.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
-
-        <TextField
-          id="outlined-select-city"
-          select
-          label="Select City"
-          defaultValue="0"
-          helperText="Please select your city"
-          sx ={{width:"50%"}}
-        >
-          {cities.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
-        </Stack>
-        <Button
-          variant="outlined"
-          onClick={() => {
-            setEditState(false);
-          }}
-        >
-          Submit
-        </Button>
-      </Stack>
-    ) : (
-      <Box display="flex" justifyContent="center" alignItems="center">
-        <Stack
-          id="stack_location"
-          direction="row"
-          divider={<Divider orientation="vertical" flexItem />}
-          spacing={2}
-        >
-          <Typography variant="caption">Perth</Typography>
-          <Typography variant="caption">WA</Typography>
-          <Typography variant="caption">Australia</Typography>
-        </Stack>
-      </Box>
-    );
-  };
-
-  return (
-    <Stack id="header_WidgetStack" direction="column" spacing={2}>
-      <Header_name />
-      <Header_location />
+      {editState ? (
+        <NameHeader
+          name={name}
+          onEdit={() => setEditState(true)}
+          onClose={() => setEditState(false)}
+        />
+      ) : (
+        <LocationHeader editState={editState} setEditState={setEditState} />
+      )}
     </Stack>
   );
 }

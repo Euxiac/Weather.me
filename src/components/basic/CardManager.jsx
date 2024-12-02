@@ -27,8 +27,7 @@ import Widget_Duck from "../widgets/Widget_Duck";
 import WidgetCard from "./WidgetCard"; // WidgetCard component
 import * as formComponents from "./forms";
 
-
-//this manages the widget cards 
+//this manages the widget cards
 const CardManager = () => {
   const [cards, setCards] = useState([]);
   const [open, setOpen] = useState(false); // Drawer open state
@@ -51,14 +50,14 @@ const CardManager = () => {
       icon: <TodayIcon />,
       background: true,
       widget: <Widget_RightNow />,
-      forms: [{ id:0, name:"UnitForm", form:<formComponents.UnitForm/>}],
+      forms: [{ id: 0, name: "UnitForm", form: <formComponents.UnitForm /> }],
     },
     {
       name: "Coming Week Forecast",
       icon: <DateRangeIcon />,
       background: false,
       widget: <Widget_ComingWeek />,
-      forms: [{id:0, name:"UnitForm", form:<formComponents.UnitForm />}],
+      forms: [{ id: 0, name: "UnitForm", form: <formComponents.UnitForm /> }],
     },
     {
       name: "Duck",
@@ -121,7 +120,7 @@ const CardManager = () => {
             display: "flex", // Enable flexbox
             justifyContent: "center", // Center content horizontally
             alignItems: "center", // Center content vertically
-            height: "100%"
+            height: "100%",
           }}
         >
           <CardActions>
