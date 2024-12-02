@@ -105,6 +105,13 @@ const CardManager = () => {
     </Drawer>
   );
 
+  
+  const CardStack=()=>{
+    {cards.map(({ id, widget }) => (
+      <WidgetCard key={id} card={{ id, widget }} deleteCard={deleteCard} />
+    ))}
+  }
+  
   return (
     <div>
       {/* List of Cards */}

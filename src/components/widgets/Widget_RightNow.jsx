@@ -38,6 +38,7 @@ function Widget_RightNow() {
 
   // Function to fill data from source (API or mock)
   const fillInfo = (source) => {
+    console.log("filling right now info");
     const currData = source;
     const weatherData = currData.weather[0];
     setCurrentWeather({
@@ -55,8 +56,7 @@ function Widget_RightNow() {
   // useEffect hook to handle data fetching or using mock data
   useEffect(() => {
     if (
-      appConfig.storageMode.getItem("weather_current") === null ||
-      TimeUtils.MinuteIsCurrent() === false
+      appConfig.storageMode.getItem("weather_current") === null || TimeUtils.MinuteIsCurrent() === false
     ) {
       fetchCurrentWeather()
         .then((res) => {
@@ -84,7 +84,6 @@ function Widget_RightNow() {
   return (
     <CardContent>
       {usingMockData ? <UsingMockData_warning /> : null}
-
       {dataAvailable ? (
         <Box
           display="flex"
@@ -93,6 +92,7 @@ function Widget_RightNow() {
           textAlign="center"
           sx={{ flexGrow: 1, pt: 1.5 }}
         >
+          <Typography variant="caption">{appConfig.storageMode.getItem("userCity")}</Typography>
           <Grid container spacing={3}>
             <Grid size={4.5}>
               <Stack

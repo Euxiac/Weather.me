@@ -8,7 +8,7 @@ import { Mode } from "@mui/icons-material";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import CloseIcon from '@mui/icons-material/Close';
 import * as appConfig from "../../appConfig";
-import * as stringUtils from "../../utilities/StringUtils";
+import * as DataUtils from "../../utilities/DataUtils";
 import mock_location from "../../data/mock_location.json"
 
 //this manages the user details on the top of the page
@@ -32,7 +32,7 @@ const UserManager = () => {
       widget: (
         <Box display="flex" justifyContent="center" alignItems="center">
           <Stack direction="row" spacing={1}>
-            {userNameString? <Typography variant="h4">Hello, {stringUtils.capitalizeWords(appConfig.storageMode.getItem("userName"))}</Typography> :
+            {userNameString? <Typography variant="h4">Hello, {DataUtils.capitalizeWords(appConfig.storageMode.getItem("userName"))}</Typography> :
             <Typography variant="h4">Let's get started!</Typography>}
             <IconButton
               aria-label="HeaderEdit"
@@ -58,9 +58,9 @@ const UserManager = () => {
             divider={<Divider orientation="vertical" flexItem />}
             spacing={2}
           >
-            <Typography variant="caption">{stringUtils.capitalizeWords(appConfig.storageMode.getItem('userCity'))}</Typography>
-            <Typography variant="caption">{stringUtils.capitalizeWords(userStateString)}</Typography>
-            <Typography variant="caption">{stringUtils.capitalizeWords(userCountryString)}</Typography>
+            <Typography variant="caption">{DataUtils.capitalizeWords(appConfig.storageMode.getItem('userCity'))}</Typography>
+            <Typography variant="caption">{DataUtils.capitalizeWords(userStateString)}</Typography>
+            <Typography variant="caption">{DataUtils.capitalizeWords(userCountryString)}</Typography>
           </Stack> : <Typography variant="caption">please set your location</Typography> }
         </Box>
       ),

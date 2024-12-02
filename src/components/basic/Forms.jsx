@@ -2,7 +2,9 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import * as appConfig from "../../appConfig";
 import mock_location from "../../data/mock_location.json";
-import * as stringUtils from "../../utilities/StringUtils";
+import * as DataUtils from "../../utilities/DataUtils";
+import { fetchCoordinates, fetchCurrentWeather } from "../../services/apiService";
+import mock_coordinates from "../../data/mock_coordinates.json";
 
 import {
   Button,
@@ -26,7 +28,6 @@ export const NameForm = (resetManager) => {
       ? appConfig.storageMode.getItem("userName")
       : ""
   );
-  const [greeting, setGreeting] = useState("Hello, "); // State for the greeting message
 
   // Handle input change
   const handleInputChange = (event) => {
@@ -103,12 +104,16 @@ export const LocationForm = (resetManager) => {
   };
 
   // Handle form submit
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (country && state && city) {
       appConfig.storageMode.setItem("userCountry", country);
       appConfig.storageMode.setItem("userState", state);
       appConfig.storageMode.setItem("userCity", city);
-      //update saved location
+      const countryCode = countries[country-1].code;
+      const stateName = countries[country-1].states[state-1].state;
+      const coords = appConfig.useMockData? mock_coordinates : await fetchCoordinates(countryCode, stateName, city);
+      appConfig.storageMode.setItem('userCoordinates', JSON.stringify(coords));
+      console.log(JSON.parse(appConfig.storageMode.getItem('userCoordinates')));
       resetManager.resetManager();
     }
   };
@@ -129,7 +134,7 @@ export const LocationForm = (resetManager) => {
       >
         {countries.map((option) => (
           <MenuItem key={option.id} value={option.id}>
-            {stringUtils.capitalizeWords(option.country)}
+            {DataUtils.capitalizeWords(option.country)}
           </MenuItem>
         ))}
       </TextField>
@@ -149,7 +154,7 @@ export const LocationForm = (resetManager) => {
           >
             {states.map((option) => (
               <MenuItem key={option.id} value={option.id}>
-                {stringUtils.capitalizeWords(option.state)}
+                {DataUtils.capitalizeWords(option.state)}
               </MenuItem>
             ))}
           </TextField>
@@ -169,7 +174,7 @@ export const LocationForm = (resetManager) => {
           >
             {cities.map((option) => (
               <MenuItem key={option.id} value={option.city}>
-                {stringUtils.capitalizeWords(option.city)}
+                {DataUtils.capitalizeWords(option.city)}
               </MenuItem>
             ))}
           </TextField>
