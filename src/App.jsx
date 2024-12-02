@@ -12,7 +12,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import UserManager from "./components/basic/UserManager";
 import * as appConfig from "./appConfig";
-import * as apiService from "./services/apiService"
+import * as apiService from "./services/apiService";
 
 const weatherMeTheme = createTheme({
   palette: {
@@ -37,10 +37,12 @@ const weatherMeTheme = createTheme({
 
 const WeatherMeApp = () => {
   useEffect(() => {
-    if (
-      appConfig.storageMode.getItem("location_data") === null
-    ) {
-      apiService.fetchLocationData()
+    async function fetchData() {
+    await apiService.getAuth();
+
+    if (appConfig.storageMode.getItem("location_data") === null) {
+      apiService
+        .fetchLocationData()
         .then((res) => {
           const fetchData = res.countryData;
           appConfig.storageMode.setItem(
@@ -52,8 +54,10 @@ const WeatherMeApp = () => {
           console.log(err);
         });
     }
+  }
+  fetchData();
   }, []);
-  console.log(JSON.parse(appConfig.storageMode.getItem("location_data")));
+  //console.log(JSON.parse(appConfig.storageMode.getItem("location_data")));
 
   return (
     <ThemeProvider theme={weatherMeTheme}>

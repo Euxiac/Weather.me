@@ -111,6 +111,7 @@ export const LocationForm = (resetManager) => {
       appConfig.storageMode.setItem("userCountry", country);
       appConfig.storageMode.setItem("userState", state);
       appConfig.storageMode.setItem("userCity", city);
+      //update saved location
       resetManager.resetManager();
     }
   };

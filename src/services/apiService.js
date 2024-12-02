@@ -3,17 +3,38 @@ import * as appConfig from "../appConfig";
 
 // {} => destructuring, when you have an object and just want one thing out of that object
 const location = { lat: -31.9558933, lon: 115.8605855 };
+let TOKEN = "";
 
+function handleTokenTimeout(callback) {}
+
+async function handleError(error, callback) {
+  console.log(`handling error ${error.status}`)
+  switch (error.status) {
+    case 403:
+      console.log(`${error.status} refreshing token`);
+      await getAuth();
+      return callback();
+      break;
+
+    case 401:
+      break;
+
+    default:
+      throw new Error(
+        `Error fetching current weather from query: ${error.message}`
+      );
+      break;
+  }
+}
 export const fetchCurrentWeather = async () => {
   if (appConfig.useMockData) {
-    throw new Error(
-      `using mock data`
-    );
+    throw new Error(`using mock data`);
   } else {
     try {
       const apiUrl = `${appConfig.APIAddress}/api/fetch-weather/current/${location.lat},${location.lon}`;
       const response = await axios.get(apiUrl, {
         headers: {
+          "Authorization": `Bearer ${TOKEN}`,
           "Content-Type": "application/json",
         },
       });
@@ -21,23 +42,20 @@ export const fetchCurrentWeather = async () => {
       // Return the response data (not `response.data` if you want only the results)
       return response.data; // The actual data returned by the API
     } catch (error) {
-      throw new Error(
-        `Error fetching current weather from query: ${error.message}`
-      );
+      return await handleError(error, fetchCurrentWeather);
     }
   }
 };
 
 export const fetch8DaysWeather = async () => {
   if (appConfig.useMockData) {
-    throw new Error(
-      `using mock data`
-    );
+    throw new Error(`using mock data`);
   } else {
     try {
       const apiUrl = `${appConfig.APIAddress}/api/fetch-weather/coming-week/${location.lat},${location.lon}`;
       const response = await axios.get(apiUrl, {
         headers: {
+          "Authorization": `Bearer ${TOKEN}`,
           "Content-Type": "application/json",
         },
       });
@@ -45,23 +63,20 @@ export const fetch8DaysWeather = async () => {
       // Return the response data (not `response.data` if you want only the results)
       return response.data; // The actual data returned by the API
     } catch (error) {
-      throw new Error(
-        `Error fetching current weather from query: ${error.message}`
-      );
+      return await handleError(error, fetchCurrentWeather);
     }
   }
 };
 
 export const fetchCurrentTime = async () => {
   if (appConfig.useMockData) {
-    throw new Error(
-      `using mock data`
-    );
+    throw new Error(`using mock data`);
   } else {
     try {
       const apiUrl = `${appConfig.APIAddress}/api/fetch-time/${location.lat},${location.lon}`;
       const response = await axios.get(apiUrl, {
         headers: {
+          "Authorization": `Bearer ${TOKEN}`,
           "Content-Type": "application/json",
         },
       });
@@ -69,40 +84,49 @@ export const fetchCurrentTime = async () => {
       // Return the response data (not `response.data` if you want only the results)
       return response.data; // The actual data returned by the API
     } catch (error) {
-      throw new Error(
-        `Error fetching current weather from query: ${error.message}`
-      );
+      return await handleError(error, fetchCurrentWeather);
     }
   }
 };
 
 export const fetchCountries = async () => {
   if (appConfig.useMockData) {
-    throw new Error(
-      `using mock data`
-    );
+    throw new Error(`using mock data`);
   }
-}
+};
 
 export const fetchLocationData = async () => {
   if (appConfig.useMockData) {
-    throw new Error(
-      `using mock data`
-    );
+    throw new Error(`using mock data`);
   } else {
     try {
+      //console.log(TOKEN);
       const apiUrl = `${appConfig.APIAddress}/location/data`;
       const response = await axios.get(apiUrl, {
         headers: {
+          "Authorization": `Bearer ${TOKEN}`,
           "Content-Type": "application/json",
         },
       });
       console.log("fetching new location data");
       return response.data; // The actual data returned by the API
     } catch (error) {
-      throw new Error(
-        `Error fetching location data: ${error.message}`
-      );
+      return await handleError(error, fetchCurrentWeather);
     }
+  }
+};
+
+export const fetchCoordinates = async () => {};
+
+export const getAuth = async () => {
+  try {
+    //console.log("start");
+    const apiUrl = `${appConfig.APIAddress}/auth/get`;
+    const response = await axios.get(apiUrl, {});
+    //console.log("fetching new auth");
+    TOKEN = response.data;
+    //console.log(TOKEN);
+  } catch (error) {
+    return await handleError(error, fetchCurrentWeather);
   }
 };
