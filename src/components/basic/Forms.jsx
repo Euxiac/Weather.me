@@ -92,9 +92,6 @@ export const LocationForm = (resetManager) => {
   // Handle input change
   const handleInputChangeCountry = (event) => {
     setCountry(event.target.value);
-    console.log(event.target.value);
-    console.log(event.target);
-    console.log(event);
   };
 
   const handleInputChangeState = (event) => {

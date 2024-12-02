@@ -1,9 +1,11 @@
 import axios from "axios";
 import * as appConfig from "../appConfig";
+import mock_coordinates from "../data/mock_coordinates.json"
 
 // {} => destructuring, when you have an object and just want one thing out of that object
-const location = { lat: -31.9558933, lon: 115.8605855 };
-let TOKEN = "";
+const location = mock_coordinates;
+
+const TOKEN = appConfig.storageMode.getItem("user_token");
 
 function handleTokenTimeout(callback) {}
 
@@ -124,7 +126,7 @@ export const getAuth = async () => {
     const apiUrl = `${appConfig.APIAddress}/auth/get`;
     const response = await axios.get(apiUrl, {});
     //console.log("fetching new auth");
-    TOKEN = response.data;
+    appConfig.storageMode.setItem("user_token", response.data);
     //console.log(TOKEN);
   } catch (error) {
     return await handleError(error, fetchCurrentWeather);
