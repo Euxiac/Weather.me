@@ -182,7 +182,7 @@ function Widget_ComingWeek() {
     );
     setUsingMockData(mock);
     
-    setTimeAndDate(time.data);
+    appConfig.useMockData ? null : setTimeAndDate(time.data);
     //console.log(JSON.parse(time).data);
     
     setDataAvailable(true);
