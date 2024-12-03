@@ -63,8 +63,12 @@ Example:
 3. If you leave forms empty, the edit funcitonality of the card will be disabled
 ---
 ### Authenticating and Backend API Calls  
+
 The authentication and backend API calls should work right out of the box, as long as the `APIAddress` is set up correctly in the `appConfig.jsx`. The app automatically retrieves its own authentication token and handles token refreshing without any additional configuration required from the user.
+
+Finally,
 ---
+Happy weathering!
 
 
 
