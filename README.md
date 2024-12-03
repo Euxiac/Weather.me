@@ -35,8 +35,7 @@ You can adjust app configurations in `appConfig.jsx`:
   - `sessionStorage` (default): Wipes data every time the user closes the tab. Useful for testing.  
 - **`APIAddress`**: Change this to the address where you are hosting the **CombinedWeatherAPI**.  
 
-*(Insert relevant image here)*  
-
+![1](https://github.com/user-attachments/assets/07adb6dc-c3ab-49dd-9220-fefea0d6a15d)
 ---
 
 ### Mock Data  
@@ -52,7 +51,7 @@ To add a widget:
 2. Update the `availableCards` list in `/src/components/basic/CardManager.jsx` with your component
 Example:  
 ```javascript
-{
+   {
       name: "Weather Right Now",
       icon: <TodayIcon />,
       background: true,
@@ -61,6 +60,9 @@ Example:
     }
 ```
 3. If you leave forms empty, the edit funcitonality of the card will be disabled
+![2](https://github.com/user-attachments/assets/2cd8d420-55f0-4ac8-8804-d47410c37a75)
+
+
 ---
 ### Authenticating and Backend API Calls  
 
