@@ -6,6 +6,7 @@ The application is built with **React** and styled using the **Material UI** lib
 
 This repository holds the front end of Weather.me.  
 To view the backend API supporting this application, visit: [CombinedWeatherAPI](https://github.com/Euxiac/CombinedWeatherAPI).  
+To view business documentation and access working files like graphics, visit this google drive [Weather.me Working Materials](https://drive.google.com/drive/folders/115whs7jF2DHDPpa8fSlnfOi2wL2bdvz_?usp=sharing)  
 
 ---
 
