@@ -65,7 +65,7 @@ const WeatherMeApp = () => {
   fetchData();
   }, []);
   //console.log(JSON.parse(appConfig.storageMode.getItem("location_data")));
-
+  const city = appConfig.storageMode.getItem("userCity");
   return (
     <ThemeProvider theme={weatherMeTheme}>
       <CssBaseline />
@@ -75,7 +75,7 @@ const WeatherMeApp = () => {
           <Box>
             <Stack id="stackOfStacks" direction="column" spacing={6}>
               <UserManager callBack={callBack} />
-              <CardManager />
+              {city? <CardManager /> : console.log("yes")}
             </Stack>
           </Box>
         </Container>
