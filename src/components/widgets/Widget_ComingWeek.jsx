@@ -12,7 +12,6 @@ import returnIcon from '../../utilities/returnIcon';
 
 // Mock Data
 import mock_weather from '../../data/mock_weather.json';
-import mock_time from '../../data/mock_time.json';
 
 // Components
 import { Card_Alerts } from '../basic/Card_Alerts';
@@ -27,6 +26,39 @@ function Widget_ComingWeek() {
 
     // Days of the week mapping
     const daysOfWeek = [{ 0: 'Sun', 1: 'Mon', 2: 'Tue', 3: 'Wed', 4: 'Thu', 5: 'Fri', 6: 'Sat' }];
+
+    // useEffect hook to fetch the weather data and time information
+    useEffect(() => {
+        if (
+            appConfig.storageMode.getItem('weather_coming_week') === null ||
+            TimeUtils.MinuteIsCurrent() === false
+        ) {
+            fetch8DaysWeather()
+                .then((res) => {
+                    const fetchData = res.data.daily;
+                    appConfig.storageMode.setItem(
+                        'weather_coming_week',
+                        JSON.stringify(res.data.daily),
+                    );
+                    grabTime(
+                        false,
+                        JSON.parse(appConfig.storageMode.getItem('weather_coming_week')),
+                    );
+                })
+                .catch((err) => {
+                    console.log(err);
+                    //setUsingMockData(true);
+                    //fillInfo(mock_weather.daily);
+                    grabTime(true, mock_weather.daily);
+                });
+        } else {
+            //setUsingMockData(false);
+            //fillInfo(
+            //  JSON.parse(appConfig.storageMode.getItem("weather_coming_week"))
+            //);
+            grabTime(false, JSON.parse(appConfig.storageMode.getItem('weather_coming_week')));
+        }
+    }, []);
 
     // Helper function to generate the weather card entry for each day
     const weatherEntry = (day, data, ukey) => {
@@ -171,39 +203,6 @@ function Widget_ComingWeek() {
 
         setDataAvailable(true);
     };
-
-    // useEffect hook to fetch the weather data and time information
-    useEffect(() => {
-        if (
-            appConfig.storageMode.getItem('weather_coming_week') === null ||
-            TimeUtils.MinuteIsCurrent() === false
-        ) {
-            fetch8DaysWeather()
-                .then((res) => {
-                    const fetchData = res.data.daily;
-                    appConfig.storageMode.setItem(
-                        'weather_coming_week',
-                        JSON.stringify(res.data.daily),
-                    );
-                    grabTime(
-                        false,
-                        JSON.parse(appConfig.storageMode.getItem('weather_coming_week')),
-                    );
-                })
-                .catch((err) => {
-                    console.log(err);
-                    //setUsingMockData(true);
-                    //fillInfo(mock_weather.daily);
-                    grabTime(true, mock_weather.daily);
-                });
-        } else {
-            //setUsingMockData(false);
-            //fillInfo(
-            //  JSON.parse(appConfig.storageMode.getItem("weather_coming_week"))
-            //);
-            grabTime(false, JSON.parse(appConfig.storageMode.getItem('weather_coming_week')));
-        }
-    }, []);
 
     return (
         <>

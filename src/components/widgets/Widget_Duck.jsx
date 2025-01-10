@@ -2,13 +2,8 @@ import * as React from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
+import { CardActions, Box, CardContent, Typography, IconButton, Stack } from '@mui/material';
 import DuckIcon from '../icons/DuckIcon';
-import Stack from '@mui/material/Stack';
-import Box from '@mui/material/Box';
 
 function Widget_Duck() {
     const [jokeText, setJokeText] = useState({ setup: '', punchline: '' });
