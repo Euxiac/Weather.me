@@ -5,7 +5,6 @@ import { Container } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import NavigationBar from "./components/basic/NavigationBar";
-import Widget_Header from "./components/widgets/Widget_Header";
 import CardManager from "./components/basic/CardManager";
 
 import { ThemeProvider, createTheme } from "@mui/material/styles";
