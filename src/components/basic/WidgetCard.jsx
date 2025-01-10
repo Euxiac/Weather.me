@@ -3,7 +3,6 @@ import {
     Button,
     Card,
     CardContent,
-    CardActionArea,
     Stack,
     Dialog,
     DialogActions,
@@ -15,11 +14,9 @@ import {
 } from '@mui/material';
 
 import BuildCircleIcon from '@mui/icons-material/BuildCircle';
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import SwapVerticalCircleIcon from '@mui/icons-material/SwapVerticalCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
-import SettingsIcon from '@mui/icons-material/Settings';
 import * as formComponents from './forms';
 
 // WidgetCard Component

@@ -1,12 +1,12 @@
+import * as React from 'react';
+import { useState } from 'react';
+
 import { Card, Box, Stack, Typography, Divider } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
-import * as React from 'react';
-import { useState } from 'react';
-import * as formComponents from './forms';
-import { Mode } from '@mui/icons-material';
-import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import CloseIcon from '@mui/icons-material/Close';
+
+import * as formComponents from './forms';
 import * as appConfig from '../../appConfig';
 import * as DataUtils from '../../utilities/DataUtils';
 import mock_location from '../../data/mock_location.json';

@@ -1,7 +1,4 @@
-import {
-    Alert,
-    Box,
-} from '@mui/material';
+import { Alert, Box } from '@mui/material';
 
 export const Card_Alerts = () => {
     return (
