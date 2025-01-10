@@ -15,7 +15,7 @@ import mock_weather from '../../data/mock_weather.json';
 import mock_time from '../../data/mock_time.json';
 
 // Components
-import { UsingMockData_warning } from '../basic/Card_Alerts';
+import { Card_Alerts } from '../basic/Card_Alerts';
 
 //Coming week widget shows a forecast of the next 8 days from the current day
 function Widget_ComingWeek() {
@@ -207,7 +207,7 @@ function Widget_ComingWeek() {
 
     return (
         <>
-            {usingMockData ? <UsingMockData_warning /> : null}
+            {usingMockData ? <Card_Alerts /> : null}
             {populateComingWeekStack()}
         </>
     );
