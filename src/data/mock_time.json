@@ -1,12 +1,12 @@
 {
-    "timezone": "Australia/Perth",
-    "datetime": "2024-10-30 00:20:00",
-    "date": "2024-10-30",
-    "year": "2024",
-    "month": "10",
-    "day": "30",
-    "hour": "00",
-    "minute": "20",
-    "second": "00",
-    "day_of_week": "Wednesday"
+  "timezone": "Australia/Perth",
+  "datetime": "2024-10-30 00:20:00",
+  "date": "2024-10-30",
+  "year": "2024",
+  "month": "10",
+  "day": "30",
+  "hour": "00",
+  "minute": "20",
+  "second": "00",
+  "day_of_week": "Wednesday"
 }
