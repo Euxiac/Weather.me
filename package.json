@@ -9,7 +9,8 @@
         "lint": "eslint .",
         "preview": "vite preview",
         "clear-session": "node clearSessionStorage.js",
-        "format": "prettier --write ."
+        "prettify": "prettier . --write",
+        "prettify-watch": "onchange \"**/*\" -- prettier --write --ignore-unknown {{changed}}"
     },
     "dependencies": {
         "@emotion/react": "^11.13.3",

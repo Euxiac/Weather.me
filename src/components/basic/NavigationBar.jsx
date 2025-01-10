@@ -1,7 +1,5 @@
 import * as React from 'react';
-
 import { AppBar, Box, Toolbar, Typography, IconButton } from '@mui/material';
-
 import LogoIcon from '../icons/LogoIcon';
 
 export default function NavigationBar() {
