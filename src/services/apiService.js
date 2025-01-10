@@ -1,6 +1,5 @@
 import axios from 'axios';
 import * as appConfig from '../appConfig';
-import mock_coordinates from '../data/mock_coordinates.json';
 
 // {} => destructuring, when you have an object and just want one thing out of that object
 let location = JSON.parse(appConfig.storageMode.getItem('userCoordinates'));
