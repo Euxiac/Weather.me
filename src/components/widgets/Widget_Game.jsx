@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Card, CardContent, Typography, TextField, Button, Box, CardActions } from '@mui/material';
-import Widget_ComingWeek from './Widget_ComingWeek';
+import { CardContent, Typography, TextField, Button, Box, CardActions } from '@mui/material';
 import DuckIcon from '../icons/DuckIcon';
 
 // Simple number guessing game component

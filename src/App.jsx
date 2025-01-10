@@ -1,17 +1,15 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-
-import { Container } from '@mui/material';
-import Stack from '@mui/material/Stack';
-import Box from '@mui/material/Box';
-import NavigationBar from './components/basic/NavigationBar';
-import CardManager from './components/basic/CardManager';
-
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import UserManager from './components/basic/UserManager';
 import * as appConfig from './appConfig';
 import * as apiService from './services/apiService';
+
+import { Container, Stack, Box } from '@mui/material';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+
+import NavigationBar from './components/basic/NavigationBar';
+import CardManager from './components/basic/CardManager';
+import UserManager from './components/basic/UserManager';
 
 const weatherMeTheme = createTheme({
     palette: {

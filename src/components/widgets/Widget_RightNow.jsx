@@ -13,7 +13,7 @@ import returnIcon from '../../utilities/returnIcon';
 
 // Mock Data and Components
 import mock_weather from '../../data/mock_weather.json';
-import { UsingMockData_warning } from '../basic/Card_Alerts';
+import { Card_Alerts } from '../basic/Card_Alerts';
 
 function Widget_RightNow() {
     // State variables
@@ -78,7 +78,7 @@ function Widget_RightNow() {
     // JSX Rendering
     return (
         <CardContent>
-            {usingMockData ? <UsingMockData_warning /> : null}
+            {usingMockData ? <Card_Alerts /> : null}
             {dataAvailable ? (
                 <Box
                     display="flex"

@@ -8,7 +8,8 @@
         "build": "vite build",
         "lint": "eslint .",
         "preview": "vite preview",
-        "clear-session": "node clearSessionStorage.js"
+        "clear-session": "node clearSessionStorage.js",
+        "format": "prettier --write ."
     },
     "dependencies": {
         "@emotion/react": "^11.13.3",

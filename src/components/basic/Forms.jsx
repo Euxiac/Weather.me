@@ -1,16 +1,14 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import * as appConfig from '../../appConfig';
 import mock_location from '../../data/mock_location.json';
 import * as DataUtils from '../../utilities/DataUtils';
-import { fetchCoordinates, fetchCurrentWeather } from '../../services/apiService';
+import { fetchCoordinates } from '../../services/apiService';
 import mock_coordinates from '../../data/mock_coordinates.json';
 
 import {
     Button,
-    CardContent,
     Stack,
-    IconButton,
     MenuItem,
     Typography,
     TextField,

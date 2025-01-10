@@ -1,5 +1,3 @@
-import mock_location from '../data/mock_location.json';
-
 export function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }

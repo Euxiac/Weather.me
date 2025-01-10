@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid'; // For generating unique IDs
+
+// MUI
 import {
     Card,
     CardActions,
@@ -19,7 +22,6 @@ import TodayIcon from '@mui/icons-material/Today';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import PetsIcon from '@mui/icons-material/Pets';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
-import { v4 as uuidv4 } from 'uuid'; // For generating unique IDs
 
 // Widget components import
 import Widget_RightNow from '../widgets/Widget_RightNow';

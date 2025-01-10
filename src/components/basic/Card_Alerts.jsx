@@ -1,7 +1,6 @@
-import Alert from '@mui/material/Alert';
-import Box from '@mui/material/Box';
+import { Alert, Box } from '@mui/material';
 
-export const UsingMockData_warning = () => {
+export const Card_Alerts = () => {
     return (
         <Box sx={{ flexGrow: 1 }}>
             <Alert severity="warning">This widget is currently using mock data</Alert>
